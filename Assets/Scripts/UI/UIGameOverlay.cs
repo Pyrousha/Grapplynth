@@ -12,6 +12,8 @@ namespace Grapplynth {
         private Button m_pauseButton;
         [SerializeField]
         private GameObject m_pauseMenu;
+        [SerializeField]
+        private GameObject m_gameOverMenu;
 
         #endregion
 
@@ -22,6 +24,7 @@ namespace Grapplynth {
             EventManager.OnPause.AddListener(HandleOnPause);
             EventManager.OnResume.AddListener(HandleOnResume);
             EventManager.OnRestart.AddListener(HandleOnRestart);
+            EventManager.OnGameOver.AddListener(HandleOnGameOver);
         }
 
         private void OnDestroy() {
@@ -53,6 +56,13 @@ namespace Grapplynth {
         private void HandleOnRestart() {
             m_pauseMenu.SetActive(false);
             m_pauseButton.interactable = true;
+
+            m_gameOverMenu.SetActive(false);
+        }
+
+        private void HandleOnGameOver() {
+            m_gameOverMenu.SetActive(true);
+            m_pauseButton.interactable = false;
         }
 
         #endregion

@@ -8,11 +8,13 @@ namespace Grapplynth {
         public static UnityEvent OnPause;
         public static UnityEvent OnResume;
         public static UnityEvent OnRestart;
+        public static UnityEvent OnGameOver;
 
         private void Awake() {
             OnPause = new UnityEvent();
             OnResume = new UnityEvent();
             OnRestart = new UnityEvent();
+            OnGameOver = new UnityEvent();
         }
     }
 }

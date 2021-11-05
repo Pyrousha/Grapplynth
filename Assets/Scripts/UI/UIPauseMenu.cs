@@ -15,6 +15,8 @@ namespace Grapplynth {
         [SerializeField]
         private Button m_settingsButton;
         [SerializeField]
+        private Button m_abandonButton;
+        [SerializeField]
         private GameObject m_settingsMenu;
 
         #endregion
@@ -25,6 +27,7 @@ namespace Grapplynth {
             m_resumeButton.onClick.AddListener(HandleResume);
             m_restartButton.onClick.AddListener(HandleRestart);
             m_settingsButton.onClick.AddListener(HandleSettings);
+            m_abandonButton.onClick.AddListener(HandleAbandon);
         }
 
         #endregion
@@ -41,6 +44,10 @@ namespace Grapplynth {
 
         private void HandleSettings() {
             m_settingsMenu.SetActive(true);
+        }
+
+        private void HandleAbandon() {
+            EventManager.OnGameOver.Invoke();
         }
 
         #endregion
