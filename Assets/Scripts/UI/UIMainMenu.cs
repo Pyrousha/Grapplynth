@@ -14,6 +14,8 @@ namespace Grapplnyth {
         [SerializeField]
         private Button m_settingsButton;
         [SerializeField]
+        private Button m_quitButton;
+        [SerializeField]
         private GameObject m_settingsMenu;
 
         #endregion
@@ -23,6 +25,7 @@ namespace Grapplnyth {
         private void Awake() {
             m_playGameButton.onClick.AddListener(HandlePlayGame);
             m_settingsButton.onClick.AddListener(HandleSettings);
+            m_quitButton.onClick.AddListener(HandleQuit);
         }
 
         #endregion
@@ -34,6 +37,13 @@ namespace Grapplnyth {
         }
         private void HandleSettings() {
             m_settingsMenu.SetActive(true);
+        }
+        private void HandleQuit() {
+            Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
 
         #endregion
