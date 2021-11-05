@@ -13,6 +13,8 @@ namespace Grapplnyth {
         private Button m_playGameButton;
         [SerializeField]
         private Button m_settingsButton;
+        [SerializeField]
+        private GameObject m_settingsMenu;
 
         #endregion
 
@@ -31,7 +33,7 @@ namespace Grapplnyth {
             SceneManager.LoadScene("Labyrinth");
         }
         private void HandleSettings() {
-
+            m_settingsMenu.SetActive(true);
         }
 
         #endregion
