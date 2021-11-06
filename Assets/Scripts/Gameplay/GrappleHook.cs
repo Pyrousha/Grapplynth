@@ -85,7 +85,19 @@ public class GrappleHook : MonoBehaviour
 
         hookState = GrappleHookState.shooting;
 
-        grapplePoint = targetPosition;
+        //Find where to move towards
+        RaycastHit hitInfo;
+        if (Physics.Linecast(guntipTransform.position, targetPosition, out hitInfo, whatIsGrapplable))
+        {
+            grapplePoint = hitInfo.point;
+        }
+        else
+        {
+            //This *shouldn't* be called, but just in case
+            grapplePoint = targetPosition;
+        }
+
+
         targetPos = grapplePoint;
 
         transform.LookAt(targetPosition);
