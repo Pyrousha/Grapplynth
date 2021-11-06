@@ -7,20 +7,23 @@ public class GrappleGun : MonoBehaviour
     private LineRenderer lr;
     private Vector3 grapplePoint;
     [SerializeField] private LayerMask whatIsGrapplable;
-    [SerializeField] private Transform shootPoint, cameraTransform, playerTransform;
+    [SerializeField] private Transform shootPoint, grappleHookRopeTransform, cameraTransform, playerTransform;
     [SerializeField] private float maxDistance = 100f;
-    private SpringJoint joint;
+    [SerializeField] private GrappleHook grappleHook;
+
+    private bool hookIsOut = false;
 
     // Start is called before the first frame update
     void Start()
     {
         lr = GetComponent<LineRenderer>();
+        grappleHook.SetWhatIsGrapplable(whatIsGrapplable);
     }
 
     private void LateUpdate()
     {
-        if (joint != null)
-            DrawRope();
+        //if (joint != null)
+        DrawRope();
     }
 
     public void StartGrapple()
@@ -33,20 +36,11 @@ public class GrappleGun : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, maxDistance, whatIsGrapplable))
         {
+            hookIsOut = true;
+
             grapplePoint = hit.point;
 
-            joint = playerTransform.gameObject.AddComponent<SpringJoint>();
-            joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = grapplePoint;
-
-            float distanceFromPoint = Vector3.Distance(playerTransform.position, grapplePoint);
-
-            joint.maxDistance = 0; //distanceFromPoint * 0.5f;
-            joint.minDistance = 0;
-
-            joint.spring = 15;
-            joint.damper = 7f;
-            joint.massScale = 4.5f;
+            grappleHook.ShootHook(grapplePoint);
 
             lr.positionCount = 2;
         }
@@ -55,16 +49,19 @@ public class GrappleGun : MonoBehaviour
     private void DrawRope()
     {
         lr.SetPosition(0, shootPoint.position);
-        lr.SetPosition(1, grapplePoint);
+        lr.SetPosition(1, grappleHookRopeTransform.position);
     }
 
     public void EndGrapple()
     {
-        lr.positionCount = 0;
-        Destroy(joint);
+        grappleHook.RetractHook();
+
+        //lr.positionCount = 0;
+
+        hookIsOut = false;
     }
 
-    public bool IsGrappling => joint != null;
+    public bool IsGrappling => hookIsOut;
 
     public Vector3 GetGrapplePoint => grapplePoint;
 }
