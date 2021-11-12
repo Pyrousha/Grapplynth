@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Grapplynth {
     public class UIGameOverlay : MonoBehaviour {
@@ -58,6 +59,8 @@ namespace Grapplynth {
             m_pauseButton.interactable = true;
 
             m_gameOverMenu.SetActive(false);
+
+            SceneManager.LoadScene(1);
         }
 
         private void HandleOnGameOver() {

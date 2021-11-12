@@ -11,7 +11,7 @@ public class GenerateLevel : MonoBehaviour
     int y = 0;
     int z = 10;
     int numPieces = 0;
-    int maxPieces = 1000;
+    [SerializeField] private int maxPieces;
     // player moves towards positive z when the game begins
     int rotation = 0;
     // track how many turns to make

@@ -28,6 +28,7 @@ public class CameraFollow : MonoBehaviour
         {
             transform.position = cameraTargetPosition.position;
         }
+        transform.rotation = playerTransform.rotation;
     }
 
     public void LoadVarsFromPlayerController(Grapplynth.PlayerController playerController)
