@@ -7,7 +7,16 @@ public class GenerateLevel : MonoBehaviour
     public Object spawnSegment;
     public GameObject player;
     public List <GameObject> levelSegments = new List <GameObject>();
-    int lastTurn = 5;
+    int lastTurn = 0;
+    int sinceLastTurn = 10;
+    int x = 0;
+    int y = 0;
+    int z = 10;
+    int numPieces = 0;
+    int maxPieces = 1000;
+    // player moves towards positive z when the game begins
+    int rotation = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,21 +24,36 @@ public class GenerateLevel : MonoBehaviour
         // place player on perch
         player = GameObject.Find("Player Hitbox");
         player.transform.position = new Vector3(0,15,0);
-        // load all the segments and store them in the levelSegments list
-        Object[] segments = Resources.LoadAll("Assets/Prefab/LevelSegments", typeof(GameObject));
-        foreach (var seg in segments) {
-            levelSegments.Add(seg);
-        }
+    }
+
+    public void GetCurrentSegment(GameObject segment) {
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        int z = 10;
-        if (z < 100) {
-            int randomInd = Random.Range(0, levelSegments.Count - 1);
-            Instantiate(levelSegments[randomInd], new Vector3(0,0,z), Quaternion.identity);
-            z = z + 10;
+        if (numPieces < maxPieces) {
+            // pick a random piece, excluding the turns if one has been placed recently
+            int startInd = (lastTurn > sinceLastTurn ? 0 : 2);
+            int randomInd = Random.Range(startInd, levelSegments.Count);
+            Instantiate(levelSegments[randomInd], new Vector3(x,y,z), Quaternion.Euler(new Vector3(0,rotation,0)));
+            //Instantiate(levelSegments[0], new Vector3(x,y,z), Quaternion.Euler(new Vector3(0,rotation,0)));
+
+            // deal with turns by resetting the angle and rotating in the correct direction
+            if (randomInd < 2) {
+                lastTurn = 0;
+                // want to rotate 90 degrees if turning left, -90 (=270) if turning right
+                rotation = (rotation + (randomInd == 0 ? 270 : 90)) % 360;
+                Debug.Log("hello, coordinates are: " + x + " " + y + " " + z);
+            }
+
+            x = x + ((rotation % 180 == 90 ? 10 : 0) * (rotation % 360 == 90 ? 1 : -1));
+            z = z + ((rotation % 180 == 0 ? 10 : 0) * (rotation % 360 == 0 ? 1 : -1));
+            //x = (int) ( x + (10*Mathf.Sin(rotation * Mathf.Deg2Rad)) );
+            //z = (int) ( z + (10*Mathf.Cos(rotation * Mathf.Deg2Rad)) );
+            lastTurn++;
+            numPieces++;
         }
     }
 }
