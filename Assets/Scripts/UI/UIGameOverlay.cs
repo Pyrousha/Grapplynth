@@ -45,16 +45,22 @@ namespace Grapplynth {
         #region Event Handlers
 
         private void HandleOnPause() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             m_pauseMenu.SetActive(true);
             m_pauseButton.interactable = false;
         }
 
         private void HandleOnResume() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             m_pauseMenu.SetActive(false);
             m_pauseButton.interactable = true;
         }
 
         private void HandleOnRestart() {
+            AudioManager.instance.PlayOneShot("click_play");
+
             m_pauseMenu.SetActive(false);
             m_pauseButton.interactable = true;
 

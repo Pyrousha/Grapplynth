@@ -25,6 +25,8 @@ namespace Grapplynth {
         #region ButtonHandlers
 
         private void HandleClose() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             this.gameObject.SetActive(false);
         }
 

@@ -28,10 +28,14 @@ namespace Grapplynth {
         #region ButtonHandlers
 
         private void HandleMainMenu() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             SceneManager.LoadScene("MainMenu");
         }
 
         private void HandlePlayAgain() {
+            AudioManager.instance.PlayOneShot("click_play");
+
             EventManager.OnRestart.Invoke();
         }
 

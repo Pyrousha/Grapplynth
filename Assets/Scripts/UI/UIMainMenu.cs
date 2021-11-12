@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Grapplnyth {
+namespace Grapplynth {
     public class UIMainMenu : MonoBehaviour {
 
         #region Editor
@@ -33,12 +33,18 @@ namespace Grapplnyth {
         #region ButtonHandlers
 
         private void HandlePlayGame() {
+            AudioManager.instance.PlayOneShot("click_play");
+
             SceneManager.LoadScene("Labyrinth");
         }
         private void HandleSettings() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             m_settingsMenu.SetActive(true);
         }
         private void HandleQuit() {
+            AudioManager.instance.PlayOneShot("click_quit");
+
             Application.Quit();
 
 #if UNITY_EDITOR

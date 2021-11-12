@@ -43,10 +43,14 @@ namespace Grapplynth {
         }
 
         private void HandleSettings() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             m_settingsMenu.SetActive(true);
         }
 
         private void HandleAbandon() {
+            AudioManager.instance.PlayOneShot("click_default");
+
             EventManager.OnGameOver.Invoke();
         }
 
