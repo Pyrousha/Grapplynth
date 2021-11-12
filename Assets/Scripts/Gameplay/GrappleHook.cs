@@ -38,7 +38,7 @@ public class GrappleHook : MonoBehaviour
         parentTransform = transform.parent;
     }
 
-    public void LoadVarsFromPlayerController(PlayerController playerController)
+    public void LoadVarsFromPlayerController(Grapplynth.PlayerController playerController)
     {
         canGrappleThroughWalls = playerController.CanHookThroughWalls;
         whatIsGrapplable = playerController.WhatIsGrapplable;

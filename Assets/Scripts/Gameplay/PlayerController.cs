@@ -2,61 +2,74 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace Grapplynth
 {
-    private Rigidbody playerRB;
-    [Header("Settings")]
-    [SerializeField] private float gravityStrength;
-
-    [SerializeField] private LayerMask whatIsGrapplable;
-    public LayerMask WhatIsGrapplable => whatIsGrapplable;
-
-    [SerializeField] private bool canHookThroughWalls;
-    public bool CanHookThroughWalls => canHookThroughWalls;
-
-    [SerializeField] private float maxGrappleDistance;
-    public float MaxGrappleDistance => maxGrappleDistance;
-
-    [Header("References")]
-    [SerializeField] GrappleGun leftGrapple;
-    [SerializeField] GrappleGun rightGrapple;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerController : MonoBehaviour
     {
-        playerRB = GetComponent<Rigidbody>();
+        private Rigidbody playerRB;
+        [Header("Settings")]
+        [SerializeField] private float gravityStrength;
 
-        leftGrapple.LoadVarsFromPlayerController(this);
-        rightGrapple.LoadVarsFromPlayerController(this);
-    }
+        [SerializeField] private LayerMask whatIsGrapplable;
+        public LayerMask WhatIsGrapplable => whatIsGrapplable;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
+        [SerializeField] private bool canHookThroughWalls;
+        public bool CanHookThroughWalls => canHookThroughWalls;
+
+        [SerializeField] private float maxGrappleDistance;
+        public float MaxGrappleDistance => maxGrappleDistance;
+
+        [Header("References")]
+        [SerializeField] private GrappleGun leftGrapple;
+        [SerializeField] private GrappleGun rightGrapple;
+        [SerializeField] private CameraFollow cameraFollow;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            leftGrapple.StartGrapple();
-        }
-        else
-        {
-            if (Input.GetMouseButtonUp(0))
-                leftGrapple.EndGrapple();
+            playerRB = GetComponent<Rigidbody>();
+
+            leftGrapple.LoadVarsFromPlayerController(this);
+            rightGrapple.LoadVarsFromPlayerController(this);
+            cameraFollow.LoadVarsFromPlayerController(this);
         }
 
-        if (Input.GetMouseButtonDown(1))
+        // Update is called once per frame
+        void Update()
         {
-            rightGrapple.StartGrapple();
-        }
-        else
-        {
-            if (Input.GetMouseButtonUp(1))
-                rightGrapple.EndGrapple();
-        }
-    }
+            if (Input.GetMouseButtonDown(0))
+            {
+                leftGrapple.StartGrapple();
+            }
+            else
+            {
+                if (Input.GetMouseButtonUp(0))
+                    leftGrapple.EndGrapple();
+            }
 
-    private void FixedUpdate()
-    {
-        //Apply gravity
-        playerRB.velocity -= new Vector3(0, gravityStrength, 0);
+            if (Input.GetMouseButtonDown(1))
+            {
+                rightGrapple.StartGrapple();
+            }
+            else
+            {
+                if (Input.GetMouseButtonUp(1))
+                    rightGrapple.EndGrapple();
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            //Apply gravity
+            playerRB.velocity -= new Vector3(0, gravityStrength, 0);
+        }
+
+        public void OnCollisionEnter(Collision col)
+        {
+            if (col.gameObject.layer == 11)
+            {
+                EventManager.OnGameOver.Invoke();
+            }
+        }
     }
 }

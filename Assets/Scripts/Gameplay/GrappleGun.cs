@@ -20,7 +20,7 @@ public class GrappleGun : MonoBehaviour
         lr = GetComponent<LineRenderer>();
     }
 
-    public void LoadVarsFromPlayerController(PlayerController playerController)
+    public void LoadVarsFromPlayerController(Grapplynth.PlayerController playerController)
     {
         whatIsGrapplable = playerController.WhatIsGrapplable;
         maxDistance = playerController.MaxGrappleDistance;
