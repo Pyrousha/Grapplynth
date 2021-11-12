@@ -7,8 +7,6 @@ public class GenerateLevel : MonoBehaviour
     public Object spawnSegment;
     public GameObject player;
     public List <GameObject> levelSegments = new List <GameObject>();
-    int lastTurn = 0;
-    int sinceLastTurn = 10;
     int x = 0;
     int y = 0;
     int z = 10;
@@ -16,6 +14,9 @@ public class GenerateLevel : MonoBehaviour
     int maxPieces = 1000;
     // player moves towards positive z when the game begins
     int rotation = 0;
+    // track how many turns to make
+    int lastTurn = 0;
+    int turnThreshold = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -35,10 +36,9 @@ public class GenerateLevel : MonoBehaviour
     {
         if (numPieces < maxPieces) {
             // pick a random piece, excluding the turns if one has been placed recently
-            int startInd = (lastTurn > sinceLastTurn ? 0 : 2);
+            int startInd = (lastTurn > turnThreshold ? 0 : 2);
             int randomInd = Random.Range(startInd, levelSegments.Count);
             Instantiate(levelSegments[randomInd], new Vector3(x,y,z), Quaternion.Euler(new Vector3(0,rotation,0)));
-            //Instantiate(levelSegments[0], new Vector3(x,y,z), Quaternion.Euler(new Vector3(0,rotation,0)));
 
             // deal with turns by resetting the angle and rotating in the correct direction
             if (randomInd < 2) {
@@ -50,8 +50,6 @@ public class GenerateLevel : MonoBehaviour
 
             x = x + ((rotation % 180 == 90 ? 10 : 0) * (rotation % 360 == 90 ? 1 : -1));
             z = z + ((rotation % 180 == 0 ? 10 : 0) * (rotation % 360 == 0 ? 1 : -1));
-            //x = (int) ( x + (10*Mathf.Sin(rotation * Mathf.Deg2Rad)) );
-            //z = (int) ( z + (10*Mathf.Cos(rotation * Mathf.Deg2Rad)) );
             lastTurn++;
             numPieces++;
         }
