@@ -19,13 +19,16 @@ public class GrappleHook : MonoBehaviour
         retracting,
         idle
     }
-    [SerializeField] private GrappleHookState hookState = GrappleHookState.idle;
+    private GrappleHookState hookState = GrappleHookState.idle;
 
     private Vector3 targetPos;
 
     private float shootSpeed = 10f;
     private float maxSpinSpeed = 720f;
     private float currSpinSpeed = 0;
+    private float maxDistance;
+
+    private bool canGrappleThroughWalls;
 
     private Transform parentTransform;
 
@@ -33,6 +36,12 @@ public class GrappleHook : MonoBehaviour
     void Start()
     {
         parentTransform = transform.parent;
+    }
+
+    public void LoadVarsFromPlayerController(PlayerController playerController)
+    {
+        canGrappleThroughWalls = playerController.CanHookThroughWalls;
+        whatIsGrapplable = playerController.WhatIsGrapplable;
     }
 
     void Update()
@@ -87,7 +96,7 @@ public class GrappleHook : MonoBehaviour
 
         //Find where to move towards
         RaycastHit hitInfo;
-        if (Physics.Linecast(guntipTransform.position, targetPosition, out hitInfo, whatIsGrapplable))
+        if ((!canGrappleThroughWalls) && (Physics.Linecast(guntipTransform.position, targetPosition, out hitInfo, whatIsGrapplable)))
         {
             grapplePoint = hitInfo.point;
         }
@@ -97,6 +106,8 @@ public class GrappleHook : MonoBehaviour
             grapplePoint = targetPosition;
         }
 
+        if (grapplePoint == null)
+            return;
 
         targetPos = grapplePoint;
 
