@@ -5,13 +5,29 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRB;
+    [Header("Settings")]
     [SerializeField] private float gravityStrength;
-    [SerializeField] GrappleGun leftGrapple, rightGrapple;
+
+    [SerializeField] private LayerMask whatIsGrapplable;
+    public LayerMask WhatIsGrapplable => whatIsGrapplable;
+
+    [SerializeField] private bool canHookThroughWalls;
+    public bool CanHookThroughWalls => canHookThroughWalls;
+
+    [SerializeField] private float maxGrappleDistance;
+    public float MaxGrappleDistance => maxGrappleDistance;
+
+    [Header("References")]
+    [SerializeField] GrappleGun leftGrapple;
+    [SerializeField] GrappleGun rightGrapple;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
+
+        leftGrapple.LoadVarsFromPlayerController(this);
+        rightGrapple.LoadVarsFromPlayerController(this);
     }
 
     // Update is called once per frame

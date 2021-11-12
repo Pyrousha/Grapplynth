@@ -6,10 +6,11 @@ public class GrappleGun : MonoBehaviour
 {
     private LineRenderer lr;
     private Vector3 grapplePoint;
-    [SerializeField] private LayerMask whatIsGrapplable;
     [SerializeField] private Transform shootPoint, grappleHookRopeTransform, cameraTransform, playerTransform;
-    [SerializeField] private float maxDistance = 100f;
+    [SerializeField] private float maxDistance;
     [SerializeField] private GrappleHook grappleHook;
+
+    private LayerMask whatIsGrapplable;
 
     private bool hookIsOut = false;
 
@@ -17,7 +18,13 @@ public class GrappleGun : MonoBehaviour
     void Start()
     {
         lr = GetComponent<LineRenderer>();
-        grappleHook.SetWhatIsGrapplable(whatIsGrapplable);
+    }
+
+    public void LoadVarsFromPlayerController(PlayerController playerController)
+    {
+        whatIsGrapplable = playerController.WhatIsGrapplable;
+        maxDistance = playerController.MaxGrappleDistance;
+        grappleHook.LoadVarsFromPlayerController(playerController);
     }
 
     private void LateUpdate()
