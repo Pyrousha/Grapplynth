@@ -14,13 +14,13 @@ public class RotateGrappleVisual : MonoBehaviour
     {
         if (grappleGun.IsGrappling == false)
         {
-            desiredRotation = transform.parent.rotation;
+            desiredRotation = Quaternion.Euler(Vector3.zero);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, desiredRotation, Time.deltaTime * rotationSpeed);
         }
         else
         {
             desiredRotation = Quaternion.LookRotation(grappleGun.GetGrapplePoint - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * rotationSpeed);
         }
-
-        transform.localRotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * rotationSpeed);
     }
 }

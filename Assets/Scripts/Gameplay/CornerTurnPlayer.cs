@@ -27,7 +27,7 @@ public class CornerTurnPlayer : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         rotatePlayer = true;
-        startingRotation = transform.parent.rotation.y;
+        startingRotation = transform.parent.eulerAngles.y;
         Debug.Log("Start rotation: "+startingRotation);
         playerTransform = other.transform;
     }
@@ -42,23 +42,41 @@ public class CornerTurnPlayer : MonoBehaviour
                 case CornerTypeEnum.left:
                     {
                         dAngle = (Mathf.Atan2(playerTransform.position.z - transform.position.z, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg * -1);
+                        float offset = (dAngle - startingRotation) % 360f;
+                        if ((offset > 0) || (offset < -90))
+                            return;
                         break;
                     }
                 case CornerTypeEnum.right:
                     {
                         dAngle = (Mathf.Atan2(playerTransform.position.x - transform.position.x, playerTransform.position.z - transform.position.z) * Mathf.Rad2Deg + 90);
+                        float offset = (dAngle - startingRotation) % 360f;
+                        if ((offset < 0) || (offset > 90))
+                            return;
                         break;
                     }
             }
 
-            //Mathf.Clamp(dAngle, startingRotation - 90, startingRotation + 90);
-            Debug.Log(dAngle);
-            playerTransform.rotation = Quaternion.Euler(new Vector3(0, startingRotation + dAngle, 0));
+            //Mathf.Clamp(dAngle, startingRotation, startingRotation + 90);
+            //Debug.Log("DAngle: "+dAngle);
+            //Debug.Log("DAngle - Starting: " + (dAngle - startingRotation)%360f);
+            //Debug.Log(Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)));
+            //if (Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)) <= 45)
+            playerTransform.rotation = Quaternion.Euler(new Vector3(0, dAngle, 0));
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
+        //Rotate player to nearest 90 degrees
+        //Debug.Log("currRotation: " + (startingRotation + dAngle) + ", roundedRotation: "+ Mathf.Round((startingRotation + dAngle) / 90f) * 90);
+
+        float offset = Mathf.Abs((dAngle - startingRotation) % 360f); //between 0 and 90
+        if (offset < 45)
+            playerTransform.rotation = Quaternion.Euler(new Vector3(0, startingRotation, 0));
+        else
+            playerTransform.rotation = Quaternion.Euler(new Vector3(0, cornerType == CornerTypeEnum.left ? startingRotation -90 : startingRotation + 90, 0));
+
         rotatePlayer = false;
         playerTransform = null;
     }
