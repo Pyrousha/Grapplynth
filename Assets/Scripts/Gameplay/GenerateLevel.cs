@@ -48,8 +48,14 @@ public class GenerateLevel : MonoBehaviour
                 Debug.Log("hello, coordinates are: " + x + " " + y + " " + z);
             }
 
+            // set new x, y, z positions
             x = x + ((rotation % 180 == 90 ? 10 : 0) * (rotation % 360 == 90 ? 1 : -1));
+            //y = 0;
             z = z + ((rotation % 180 == 0 ? 10 : 0) * (rotation % 360 == 0 ? 1 : -1));
+
+            // move level generator to new position
+            transform.position = new Vector3(x,y,z);
+
             lastTurn++;
             numPieces++;
         }

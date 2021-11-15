@@ -66,9 +66,21 @@ namespace Grapplynth
 
         public void OnCollisionEnter(Collision col)
         {
-            if (col.gameObject.layer == 11)
-            {
-                EventManager.OnGameOver.Invoke();
+            switch (col.gameObject.layer) {
+                // landing on spikes: game over
+                case 11:
+                    EventManager.OnGameOver.Invoke();
+                    break;
+                // landing on trampoline: bounce up
+                case 13:
+                    // set velocity components based on trampoline attributes
+                    Trampoline trampoline = col.gameObject.GetComponent<Trampoline>();
+                    Vector3 newVelocity = new Vector3(0,0,0);
+                    newVelocity.x = (trampoline.strengthX > 0 ? trampoline.strengthX : playerRB.velocity.x);
+                    newVelocity.y = (trampoline.strengthY > 0 ? trampoline.strengthY : playerRB.velocity.y);
+                    newVelocity.z = (trampoline.strengthZ > 0 ? trampoline.strengthZ : playerRB.velocity.z);
+                    playerRB.velocity = newVelocity;
+                    break;
             }
         }
     }
