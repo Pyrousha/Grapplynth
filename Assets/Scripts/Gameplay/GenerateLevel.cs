@@ -60,8 +60,7 @@ namespace Grapplynth {
                 int randomInd = Random.Range(startRand, 7);
 
                 // pick piece based on probability
-                GameObject segment = Instantiate(levelSegments[randomInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
-                SegmentScript segmentScript = segment.gameObject.GetComponent<SegmentScript>();
+                SegmentScript segmentScript = InstantiateSegment(randomInd);
 
                 RotateForTurn(randomInd);
                 if (randomInd < 2) {
@@ -87,16 +86,15 @@ namespace Grapplynth {
             for (int s = 0; s < numNewPieces; s++) {
                 int randomInd = Random.Range(2, 7); // intermediate pieces are never turns
 
-                GameObject segment = Instantiate(levelSegments[randomInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
-                SegmentScript segmentScript = segment.gameObject.GetComponent<SegmentScript>();
+                SegmentScript segmentScript = InstantiateSegment(randomInd);
 
                 MoveToNewPos(segmentScript);
             }
             
             // Generate a turn
             int turnInd = Random.Range(0, 2); // left or right
-            GameObject turnSegment = Instantiate(levelSegments[turnInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
-            SegmentScript turnSegmentScript = turnSegment.gameObject.GetComponent<SegmentScript>();
+
+            SegmentScript turnSegmentScript = InstantiateSegment(turnInd);
 
             RotateForTurn(turnInd);
 
@@ -120,6 +118,14 @@ namespace Grapplynth {
 
             // move level generator to new position
             transform.position = new Vector3(x, y, z);
+        }
+
+        private SegmentScript InstantiateSegment(int segmentInd) {
+            // pick piece based on probability
+            GameObject segment = Instantiate(levelSegments[segmentInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
+            SegmentScript segmentScript = segment.gameObject.GetComponent<SegmentScript>();
+
+            return segmentScript;
         }
     }
 }
