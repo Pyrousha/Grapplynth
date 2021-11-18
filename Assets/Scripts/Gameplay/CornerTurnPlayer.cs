@@ -10,6 +10,8 @@ namespace Grapplynth {
 
         float dAngle;
 
+        private bool visited = false;
+
         [System.Serializable]
         private enum CornerTypeEnum {
             left,
@@ -29,7 +31,10 @@ namespace Grapplynth {
             Debug.Log("Start rotation: " + startingRotation);
             playerTransform = other.transform;
 
-            EventManager.OnTurnCorner.Invoke();
+            if (visited == false) {
+                EventManager.OnTurnCorner.Invoke();
+                visited = true;
+            }
         }
 
         // Update is called once per frame
