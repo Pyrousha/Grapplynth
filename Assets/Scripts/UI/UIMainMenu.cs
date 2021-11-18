@@ -22,10 +22,16 @@ namespace Grapplynth {
 
         #region Unity Callbacks
 
-        private void Awake() {
+        private void OnEnable() {
             m_playGameButton.onClick.AddListener(HandlePlayGame);
             m_settingsButton.onClick.AddListener(HandleSettings);
             m_quitButton.onClick.AddListener(HandleQuit);
+        }
+
+        private void OnDisable() {
+            m_playGameButton.onClick.RemoveAllListeners();
+            m_settingsButton.onClick.RemoveAllListeners();
+            m_quitButton.onClick.RemoveAllListeners();
         }
 
         #endregion
@@ -36,6 +42,7 @@ namespace Grapplynth {
             AudioManager.instance.PlayOneShot("click_play");
 
             SceneManager.LoadScene("Labyrinth");
+            EventManager.OnStart.Invoke();
         }
         private void HandleSettings() {
             AudioManager.instance.PlayOneShot("click_default");

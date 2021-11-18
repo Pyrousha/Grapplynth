@@ -15,21 +15,39 @@ namespace Grapplynth {
         private GameObject m_pauseMenu;
         [SerializeField]
         private GameObject m_gameOverMenu;
+        [SerializeField]
+        private Text m_overlayScoreText;
 
         #endregion
 
         #region Unity Callbacks
 
-        private void Awake() {
+        private void OnEnable() {
             m_pauseButton.onClick.AddListener(HandlePause);
             EventManager.OnPause.AddListener(HandleOnPause);
             EventManager.OnResume.AddListener(HandleOnResume);
             EventManager.OnRestart.AddListener(HandleOnRestart);
             EventManager.OnGameOver.AddListener(HandleOnGameOver);
+
+            EventManager.OnTurnCorner.AddListener(UpdateScoreText);
+
+            EventManager.OnScoreChanged.AddListener(UpdateScoreText);
         }
 
-        private void OnDestroy() {
+        private void OnDisable () {
             m_pauseButton.onClick.RemoveListener(HandlePause);
+            EventManager.OnPause.RemoveListener(HandleOnPause);
+            EventManager.OnResume.RemoveListener(HandleOnResume);
+            EventManager.OnRestart.RemoveListener(HandleOnRestart);
+            EventManager.OnGameOver.RemoveListener(HandleOnGameOver);
+
+            EventManager.OnTurnCorner.RemoveListener(UpdateScoreText);
+
+            EventManager.OnScoreChanged.RemoveListener(UpdateScoreText);
+        }
+
+        private void Start() {
+            UpdateScoreText();
         }
 
         #endregion
@@ -75,5 +93,9 @@ namespace Grapplynth {
         }
 
         #endregion
+
+        private void UpdateScoreText() {
+            m_overlayScoreText.text = "Score: " + ScoreManager.instance.CurrScore;
+        }
     }
 }

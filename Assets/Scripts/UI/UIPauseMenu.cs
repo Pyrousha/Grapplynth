@@ -23,11 +23,18 @@ namespace Grapplynth {
 
         #region Unity Callbacks
 
-        private void Awake() {
+        private void OnEnable() {
             m_resumeButton.onClick.AddListener(HandleResume);
             m_restartButton.onClick.AddListener(HandleRestart);
             m_settingsButton.onClick.AddListener(HandleSettings);
             m_abandonButton.onClick.AddListener(HandleAbandon);
+        }
+
+        private void OnDisable() {
+            m_resumeButton.onClick.RemoveListener(HandleResume);
+            m_restartButton.onClick.RemoveListener(HandleRestart);
+            m_settingsButton.onClick.RemoveListener(HandleSettings);
+            m_abandonButton.onClick.RemoveListener(HandleAbandon);
         }
 
         #endregion

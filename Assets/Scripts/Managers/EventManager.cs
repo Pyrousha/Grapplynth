@@ -5,16 +5,26 @@ using UnityEngine.Events;
 
 namespace Grapplynth {
     public class EventManager : MonoBehaviour {
+        public static UnityEvent OnStart;
         public static UnityEvent OnPause;
         public static UnityEvent OnResume;
         public static UnityEvent OnRestart;
         public static UnityEvent OnGameOver;
 
-        private void Awake() {
+        public static UnityEvent OnTurnCorner;
+
+        public static UnityEvent OnScoreChanged;
+
+        private void OnEnable() {
+            OnStart = new UnityEvent();
             OnPause = new UnityEvent();
             OnResume = new UnityEvent();
             OnRestart = new UnityEvent();
             OnGameOver = new UnityEvent();
+
+            OnTurnCorner = new UnityEvent();
+
+            OnScoreChanged = new UnityEvent();
         }
     }
 }

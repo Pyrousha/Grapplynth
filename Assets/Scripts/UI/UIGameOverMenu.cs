@@ -13,14 +13,27 @@ namespace Grapplynth {
         private Button m_mainMenuButton;
         [SerializeField]
         private Button m_playAgainButton;
+        [SerializeField]
+        private Text m_scoreText;
+        [SerializeField]
+        private Text m_highScoreText;
 
         #endregion
 
         #region Unity Callbacks
 
-        private void Awake() {
+        private void OnEnable() {
             m_mainMenuButton.onClick.AddListener(HandleMainMenu);
             m_playAgainButton.onClick.AddListener(HandlePlayAgain);
+
+            UpdateScoreText();
+        }
+
+        private void OnDisable() {
+            m_mainMenuButton.onClick.RemoveAllListeners();
+            m_playAgainButton.onClick.RemoveAllListeners();
+
+            m_highScoreText.gameObject.SetActive(false);
         }
 
         #endregion
@@ -40,5 +53,13 @@ namespace Grapplynth {
         }
 
         #endregion
+
+        private void UpdateScoreText() {
+            m_scoreText.text = "Score: " + ScoreManager.instance.CurrScore;
+
+            if (ScoreManager.instance.WasHighScore) {
+                m_highScoreText.gameObject.SetActive(true);
+            }
+        }
     }
 }
