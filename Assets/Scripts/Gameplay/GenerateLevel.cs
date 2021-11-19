@@ -9,7 +9,7 @@ namespace Grapplynth {
         public List<GameObject> levelSegments = new List<GameObject>();
         int x = 0;
         int y = 0;
-        int z = 10;
+        int z = 0;
         int numPieces = 0;
         [SerializeField] private int maxPieces;
         [SerializeField] private int maxSimultaneousTurns; // e.g. 3 turns = 3 hallways (not including forks)
@@ -19,6 +19,20 @@ namespace Grapplynth {
         int lastTurn = 0;
         int turnThreshold = 10;
         int numTurns = 0;
+
+        // class used for segment initialization
+        private class SegVals {
+            public SegmentScript segmentScript;
+            public GameObject segment;
+        }
+
+        // stores the initial hallway
+        GameObject[] initialHallway;
+
+        // store all the current hallways in queue, dequeuing old ones as needed
+        private Queue<GameObject[]> hallwayQueue = new Queue<GameObject[]>();
+        int hallwayQueueSize = 0;
+        int maxHallwayQueueSize = 3;
 
         bool isSpawningInitial = true;
 
@@ -32,7 +46,12 @@ namespace Grapplynth {
 
         // Start is called before the first frame update
         void Start() {
-            Instantiate(spawnSegment, new Vector3(0, 0, 0), Quaternion.identity);
+            int initialHallwaySize = (maxPieces > maxSimultaneousTurns ? maxPieces : maxSimultaneousTurns) + 1;
+            initialHallway = new GameObject[initialHallwaySize];
+            SegVals segvals = InstantiateSegment(-1);
+            MoveToNewPos(segvals.segmentScript);
+            initialHallway[0] = segvals.segment;
+            numPieces++;
             // place player on perch
             player = GameObject.Find("Player Hitbox");
             player.transform.position = new Vector3(0, 15, 0);
@@ -60,7 +79,7 @@ namespace Grapplynth {
                 int randomInd = Random.Range(startRand, 7);
 
                 // pick piece based on probability
-                SegmentScript segmentScript = InstantiateSegment(randomInd);
+                SegVals segvals = InstantiateSegment(randomInd);
 
                 RotateForTurn(randomInd);
                 if (randomInd < 2) {
@@ -68,12 +87,16 @@ namespace Grapplynth {
                     numTurns++;
                 }
 
-                MoveToNewPos(segmentScript);
+                MoveToNewPos(segvals.segmentScript);
+
+                initialHallway[numPieces] = segvals.segment;
+
                 lastTurn++;
                 numPieces++;
             }
             else {
                 isSpawningInitial = false;
+                hallwayQueue.Enqueue(initialHallway);
             }
         }
 
@@ -82,23 +105,35 @@ namespace Grapplynth {
             int numNewPieces = Random.Range(2, 10); // the number of segments in this hallway
 
             // Generate those segments
+            GameObject[] hallway = new GameObject[numNewPieces+1];
 
             for (int s = 0; s < numNewPieces; s++) {
                 int randomInd = Random.Range(2, 7); // intermediate pieces are never turns
 
-                SegmentScript segmentScript = InstantiateSegment(randomInd);
-
-                MoveToNewPos(segmentScript);
+                SegVals segvals = InstantiateSegment(randomInd);
+                MoveToNewPos(segvals.segmentScript);
+                hallway[s] = segvals.segment;
             }
             
             // Generate a turn
             int turnInd = Random.Range(0, 2); // left or right
 
-            SegmentScript turnSegmentScript = InstantiateSegment(turnInd);
+            SegVals segvalsturn = InstantiateSegment(turnInd);
 
             RotateForTurn(turnInd);
 
-            MoveToNewPos(turnSegmentScript);
+            MoveToNewPos(segvalsturn.segmentScript);
+            hallway[numNewPieces] = segvalsturn.segment;
+
+            hallwayQueue.Enqueue(hallway);
+            hallwayQueueSize++;
+            //Debug.Log("number of hallways generated: " + hallwayQueueSize);
+            if (hallwayQueueSize > maxHallwayQueueSize) {
+                //Debug.Log("deleting a hallway: " + hallwayQueueSize);
+                GameObject[] segmentsToDelete = hallwayQueue.Dequeue();
+                DestroySegment(segmentsToDelete);
+                hallwayQueueSize--;
+            }
         }
 
         private void RotateForTurn(int randomInd) {
@@ -120,12 +155,27 @@ namespace Grapplynth {
             transform.position = new Vector3(x, y, z);
         }
 
-        private SegmentScript InstantiateSegment(int segmentInd) {
+        private SegVals InstantiateSegment(int segmentInd) {
             // pick piece based on probability
-            GameObject segment = Instantiate(levelSegments[segmentInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
-            SegmentScript segmentScript = segment.gameObject.GetComponent<SegmentScript>();
+            SegVals segvals = new SegVals();
+            // create segment (normal case)
+            if (segmentInd != -1) {
+                segvals.segment = Instantiate(levelSegments[segmentInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
+            }
+            // special case: spawn segment
+            else {
+                segvals.segment = Instantiate((GameObject)spawnSegment, new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
+            }
+            segvals.segmentScript = segvals.segment.gameObject.GetComponent<SegmentScript>();
 
-            return segmentScript;
+            return segvals;
+        }
+
+        private void DestroySegment(GameObject[] hallway) {
+            // pick piece based on probability
+            foreach (GameObject segment in hallway){
+                Destroy(segment);
+            }
         }
     }
 }
