@@ -38,6 +38,7 @@ namespace Grapplynth {
             EventManager.OnStart.AddListener(ResetScore);
             EventManager.OnRestart.AddListener(ResetScore);
             EventManager.OnTurnCorner.AddListener(TurnScore);
+            EventManager.OnBarScore.AddListener(BarScore);
             EventManager.OnGameOver.AddListener(SaveScore);
         }
 
@@ -45,12 +46,20 @@ namespace Grapplynth {
             EventManager.OnStart.RemoveListener(ResetScore);
             EventManager.OnRestart.RemoveListener(ResetScore);
             EventManager.OnTurnCorner.RemoveListener(TurnScore);
+            EventManager.OnBarScore.RemoveListener(BarScore);
             EventManager.OnGameOver.RemoveListener(SaveScore);
         }
 
         private void TurnScore() {
             m_currScore += 100;
+            Debug.Log("Update score: " + m_currScore);
+            EventManager.OnScoreChanged.Invoke();
+            // AudioManager.instance.PlayOneShot("turn_score");
+        }
 
+        private void BarScore() {
+            m_currScore += 100;
+            Debug.Log("Update score: " + m_currScore);
             EventManager.OnScoreChanged.Invoke();
             // AudioManager.instance.PlayOneShot("turn_score");
         }

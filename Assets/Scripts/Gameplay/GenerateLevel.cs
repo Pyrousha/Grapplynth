@@ -76,7 +76,7 @@ namespace Grapplynth {
                 //int randomInd = Random.Range(startInd, levelSegments.Count);
                 int startRand = (lastTurn > turnThreshold ? 0 : 2);
                 // Ranomly generate an int between 0 and 6 (inclusive)
-                int randomInd = Random.Range(startRand, 7);
+                int randomInd = Random.Range(startRand, levelSegments.Count);
 
                 // pick piece based on probability
                 SegVals segvals = InstantiateSegment(randomInd);
@@ -108,7 +108,7 @@ namespace Grapplynth {
             GameObject[] hallway = new GameObject[numNewPieces+1];
 
             for (int s = 0; s < numNewPieces; s++) {
-                int randomInd = Random.Range(2, 7); // intermediate pieces are never turns
+                int randomInd = Random.Range(2, levelSegments.Count); // intermediate pieces are never turns
 
                 SegVals segvals = InstantiateSegment(randomInd);
                 MoveToNewPos(segvals.segmentScript);
@@ -131,7 +131,7 @@ namespace Grapplynth {
             if (hallwayQueueSize > maxHallwayQueueSize) {
                 //Debug.Log("deleting a hallway: " + hallwayQueueSize);
                 GameObject[] segmentsToDelete = hallwayQueue.Dequeue();
-                DestroySegment(segmentsToDelete);
+                DestroyHallway(segmentsToDelete);
                 hallwayQueueSize--;
             }
         }
@@ -171,8 +171,7 @@ namespace Grapplynth {
             return segvals;
         }
 
-        private void DestroySegment(GameObject[] hallway) {
-            // pick piece based on probability
+        private void DestroyHallway(GameObject[] hallway) {
             foreach (GameObject segment in hallway){
                 Destroy(segment);
             }
