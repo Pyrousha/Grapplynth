@@ -167,7 +167,6 @@ namespace Grapplynth {
                 segvals.segment = Instantiate((GameObject)spawnSegment, new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
             }
             segvals.segmentScript = segvals.segment.gameObject.GetComponent<SegmentScript>();
-
             return segvals;
         }
 
