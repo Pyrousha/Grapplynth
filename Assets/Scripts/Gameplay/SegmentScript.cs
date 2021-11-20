@@ -7,6 +7,7 @@ public class SegmentScript : MonoBehaviour
     public int width;   // x
     public int height;  // y
     public int length;  // z
+    public int deltay;
     // Start is called before the first frame update
     void Start()
     {

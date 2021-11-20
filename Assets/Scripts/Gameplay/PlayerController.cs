@@ -62,6 +62,10 @@ namespace Grapplynth
         {
             //Apply gravity
             playerRB.velocity -= new Vector3(0, gravityStrength, 0);
+            // automatically kill if player falls below 1000 units
+            if (playerRB.transform.position.y < -1000) {
+                EventManager.OnGameOver.Invoke();
+            }
         }
 
         public void OnCollisionEnter(Collision col)
@@ -76,9 +80,9 @@ namespace Grapplynth
                     // set velocity components based on trampoline attributes
                     Trampoline trampoline = col.gameObject.GetComponent<Trampoline>();
                     Vector3 newVelocity = new Vector3(0,0,0);
-                    newVelocity.x = (trampoline.strengthX > 0 ? trampoline.strengthX : playerRB.velocity.x);
-                    newVelocity.y = (trampoline.strengthY > 0 ? trampoline.strengthY : playerRB.velocity.y);
-                    newVelocity.z = (trampoline.strengthZ > 0 ? trampoline.strengthZ : playerRB.velocity.z);
+                    newVelocity.x = (trampoline.strengthX != 0 ? trampoline.strengthX : playerRB.velocity.x);
+                    newVelocity.y = (trampoline.strengthY != 0 ? trampoline.strengthY : playerRB.velocity.y);
+                    newVelocity.z = (trampoline.strengthZ != 0 ? trampoline.strengthZ : playerRB.velocity.z);
                     playerRB.velocity = newVelocity;
                     break;
             }

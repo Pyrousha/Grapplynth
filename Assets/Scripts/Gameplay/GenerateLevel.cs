@@ -72,7 +72,7 @@ namespace Grapplynth {
         private void InitialSpawn() {
             if ((numPieces < maxPieces) && (numTurns < maxSimultaneousTurns)) {
                 // pick a random piece, excluding the turns if one has been placed recently
-                //int startInd = (lastTurn > turnThreshold ? 0 : 2);
+                //int startInd = (lastTurn > turnThreshold ? 0 : 4);
                 //int randomInd = Random.Range(startInd, levelSegments.Count);
                 int startRand = (lastTurn > turnThreshold ? 0 : 2);
                 // Ranomly generate an int between 0 and 6 (inclusive)
@@ -148,7 +148,7 @@ namespace Grapplynth {
         private void MoveToNewPos(SegmentScript segmentScript) {
             // set new x, y, z positions
             x = x + ((rotation % 180 == 90 ? segmentScript.length : 0) * (rotation % 360 == 90 ? 1 : -1));
-            //y = 0;
+            y = y + segmentScript.deltay;
             z = z + ((rotation % 180 == 0 ? segmentScript.length : 0) * (rotation % 360 == 0 ? 1 : -1));
 
             // move level generator to new position

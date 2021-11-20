@@ -10,6 +10,7 @@ namespace Grapplynth {
         private int m_currScore = 0;
         private int m_highScore = -1;
         private bool m_wasHighScore = false;
+        private int pointsVal;
 
         public static ScoreManager instance;
 
@@ -25,6 +26,11 @@ namespace Grapplynth {
             get { return m_wasHighScore; }
         }
 
+        public int Points {
+            get { return pointsVal; }
+            set { pointsVal = value; }
+        }
+
         private void Awake() {
             if (instance == null) {
                 instance = this;
@@ -38,6 +44,7 @@ namespace Grapplynth {
             EventManager.OnStart.AddListener(ResetScore);
             EventManager.OnRestart.AddListener(ResetScore);
             EventManager.OnTurnCorner.AddListener(TurnScore);
+            EventManager.OnSegmentScore.AddListener(SegmentScore);
             EventManager.OnBarScore.AddListener(BarScore);
             EventManager.OnGameOver.AddListener(SaveScore);
         }
@@ -46,6 +53,7 @@ namespace Grapplynth {
             EventManager.OnStart.RemoveListener(ResetScore);
             EventManager.OnRestart.RemoveListener(ResetScore);
             EventManager.OnTurnCorner.RemoveListener(TurnScore);
+            EventManager.OnSegmentScore.RemoveListener(SegmentScore);
             EventManager.OnBarScore.RemoveListener(BarScore);
             EventManager.OnGameOver.RemoveListener(SaveScore);
         }
@@ -57,9 +65,16 @@ namespace Grapplynth {
             // AudioManager.instance.PlayOneShot("turn_score");
         }
 
+        private void SegmentScore() {
+            m_currScore += Points;
+            Debug.Log("Update score from segment: " + m_currScore);
+            EventManager.OnScoreChanged.Invoke();
+            // AudioManager.instance.PlayOneShot("turn_score");
+        }
+
         private void BarScore() {
-            m_currScore += 100;
-            Debug.Log("Update score: " + m_currScore);
+            m_currScore += 50;
+            Debug.Log("Update score from bar: " + m_currScore);
             EventManager.OnScoreChanged.Invoke();
             // AudioManager.instance.PlayOneShot("turn_score");
         }

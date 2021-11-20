@@ -15,7 +15,9 @@ namespace Grapplynth {
         [System.Serializable]
         private enum CornerTypeEnum {
             left,
-            right
+            right,
+            up,
+            down
         }
         [SerializeField] private CornerTypeEnum cornerType;
 

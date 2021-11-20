@@ -15,6 +15,8 @@ namespace Grapplynth {
 
         public static UnityEvent OnBarScore;
 
+        public static UnityEvent OnSegmentScore;
+
         public static UnityEvent OnScoreChanged;
 
         private void OnEnable() {
@@ -27,6 +29,8 @@ namespace Grapplynth {
             OnTurnCorner = new UnityEvent();
 
             OnBarScore = new UnityEvent();
+
+            OnSegmentScore = new UnityEvent();
 
             OnScoreChanged = new UnityEvent();
         }
