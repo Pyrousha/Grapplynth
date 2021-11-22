@@ -9,6 +9,8 @@ namespace Grapplynth {
 
         private Dictionary<string, AudioData> m_audioMap;
 
+        public int gameSeed;
+
         public static GameDB instance;
 
         private void Awake() {

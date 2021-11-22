@@ -23,7 +23,7 @@ public class GrappleHook : MonoBehaviour
 
     private Vector3 targetPos;
 
-    private float shootSpeed = 10f;
+    private float shootSpeed = 14f;
     private float maxSpinSpeed = 720f;
     private float currSpinSpeed = 0;
     private float maxDistance;

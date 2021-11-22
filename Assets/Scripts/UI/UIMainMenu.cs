@@ -40,7 +40,6 @@ namespace Grapplynth {
 
         private void HandlePlayGame() {
             AudioManager.instance.PlayOneShot("click_play");
-
             SceneManager.LoadScene("Labyrinth");
             EventManager.OnStart.Invoke();
         }

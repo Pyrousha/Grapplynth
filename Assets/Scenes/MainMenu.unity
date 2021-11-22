@@ -331,6 +331,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &553412191 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8938570714019692005, guid: 92c46a03e9a6ad345acd3a1982b86561,
+    type: 3}
+  m_PrefabInstance: {fileID: 818084446318798136}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &666401980
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,6 +1295,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f22f52f2bff36040b212cdc10a5b5dd, type: 2}
   - {fileID: 11400000, guid: 37a76a4208f145643a876925b08c8bd1, type: 2}
   - {fileID: 11400000, guid: ff0cf01f95b931c46b158dec7a06d58a, type: 2}
+  gameSeed: 0
 --- !u!1 &1631262854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2004,6 +2017,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1631262858}
     m_Modifications:
+    - target: {fileID: 149507674182102371, guid: 92c46a03e9a6ad345acd3a1982b86561,
+        type: 3}
+      propertyPath: m_Text
+      value: Enter seed...
+      objectReference: {fileID: 0}
+    - target: {fileID: 700304569863664705, guid: 92c46a03e9a6ad345acd3a1982b86561,
+        type: 3}
+      propertyPath: m_Text
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 818084446944000176, guid: 92c46a03e9a6ad345acd3a1982b86561,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2109,10 +2132,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 818084446944000177, guid: 92c46a03e9a6ad345acd3a1982b86561,
+        type: 3}
+      propertyPath: m_seedInput
+      value: 
+      objectReference: {fileID: 553412191}
     - target: {fileID: 818084446944000191, guid: 92c46a03e9a6ad345acd3a1982b86561,
         type: 3}
       propertyPath: m_Name
       value: SettingsMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6098635406952228250, guid: 92c46a03e9a6ad345acd3a1982b86561,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -240
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92c46a03e9a6ad345acd3a1982b86561, type: 3}

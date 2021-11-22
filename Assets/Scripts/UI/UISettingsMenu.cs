@@ -11,6 +11,8 @@ namespace Grapplynth {
 
         [SerializeField]
         private Button m_closeButton;
+        [SerializeField]
+        private InputField m_seedInput;
 
         #endregion
 
@@ -26,7 +28,8 @@ namespace Grapplynth {
 
         private void HandleClose() {
             AudioManager.instance.PlayOneShot("click_default");
-
+            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            gameDB.gameSeed = ( (m_seedInput.text == null || m_seedInput.text.Length == 0) ? 0 : (int.TryParse(m_seedInput.text, out gameDB.gameSeed) == false ? 0 : int.Parse(m_seedInput.text)) );
             this.gameObject.SetActive(false);
         }
 
