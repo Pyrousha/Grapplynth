@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Grapplynth {
     public class GenerateLevel : MonoBehaviour {
         public Object spawnSegment;
+        int genID;
         public GameObject player;
         public List<GameObject> levelSegments = new List<GameObject>();
         int x = 0;
@@ -118,6 +119,7 @@ namespace Grapplynth {
                 SegVals segvals = InstantiateSegment(randomInd);
                 MoveToNewPos(segvals.segmentScript);
                 hallway[s] = segvals.segment;
+                numPieces++;
             }
             
             // Generate a turn
@@ -129,6 +131,7 @@ namespace Grapplynth {
 
             MoveToNewPos(segvalsturn.segmentScript);
             hallway[numNewPieces] = segvalsturn.segment;
+            numPieces++;
 
             hallwayQueue.Enqueue(hallway);
             hallwayQueueSize++;
