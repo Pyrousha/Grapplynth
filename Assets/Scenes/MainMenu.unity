@@ -1295,6 +1295,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f22f52f2bff36040b212cdc10a5b5dd, type: 2}
   - {fileID: 11400000, guid: 37a76a4208f145643a876925b08c8bd1, type: 2}
   - {fileID: 11400000, guid: ff0cf01f95b931c46b158dec7a06d58a, type: 2}
+  textSeed: 0
   gameSeed: 0
 --- !u!1 &1631262854
 GameObject:
@@ -2025,7 +2026,7 @@ PrefabInstance:
     - target: {fileID: 700304569863664705, guid: 92c46a03e9a6ad345acd3a1982b86561,
         type: 3}
       propertyPath: m_Text
-      value: 0
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 818084446944000176, guid: 92c46a03e9a6ad345acd3a1982b86561,
         type: 3}

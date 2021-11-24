@@ -20,6 +20,8 @@ namespace Grapplynth {
 
         private void Awake() {
             m_closeButton.onClick.AddListener(HandleClose);
+            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            m_seedInput.text = gameDB.textSeed.ToString();
         }
 
         #endregion
@@ -29,7 +31,7 @@ namespace Grapplynth {
         private void HandleClose() {
             AudioManager.instance.PlayOneShot("click_default");
             GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
-            gameDB.gameSeed = ( (m_seedInput.text == null || m_seedInput.text.Length == 0) ? 0 : (int.TryParse(m_seedInput.text, out gameDB.gameSeed) == false ? 0 : int.Parse(m_seedInput.text)) );
+            gameDB.gameSeed = ( (m_seedInput.text == null || m_seedInput.text.Length == 0 || int.TryParse(m_seedInput.text, out gameDB.textSeed) == false || gameDB.textSeed == 0) ? Random.Range(-2000000000, 2000000000) : (int.Parse(m_seedInput.text)) );
             this.gameObject.SetActive(false);
         }
 

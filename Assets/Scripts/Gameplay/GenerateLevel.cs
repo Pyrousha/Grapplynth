@@ -48,7 +48,8 @@ namespace Grapplynth {
         // Start is called before the first frame update
         void Start() {
             GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
-            int seed = (gameDB.gameSeed != 0 ? gameDB.gameSeed : Random.Range(-2000000000, 2000000000));
+            gameDB.gameSeed = (gameDB.textSeed == 0 ? Random.Range(-2000000000, 2000000000) : gameDB.textSeed); 
+            int seed = gameDB.gameSeed;
             r = new System.Random(seed);
             int initialHallwaySize = (maxPieces > maxSimultaneousTurns ? maxPieces : maxSimultaneousTurns) + 1;
             initialHallway = new GameObject[initialHallwaySize];

@@ -7,6 +7,7 @@ public class Trampoline : MonoBehaviour
     public int strengthX;
     public int strengthY;
     public int strengthZ;
+    public int constant;
     // Start is called before the first frame update
     void Start()
     {

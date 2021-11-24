@@ -4562,6 +4562,7 @@ MonoBehaviour:
   - {fileID: 2058190375761589006, guid: f7327820a7398cb439f77d29de87527f, type: 3}
   - {fileID: 2058190375761589006, guid: b1a0ae20364c5234d9067de2a91e38ca, type: 3}
   - {fileID: 2058190375761589006, guid: 67b2beaeede5f98468fafd87bb8f3118, type: 3}
+  - {fileID: 3758244643622650830, guid: 6e1ee810c8a8cbb4bb3ce512c914a708, type: 3}
   maxPieces: 50
   maxSimultaneousTurns: 3
 --- !u!1 &1690610056
