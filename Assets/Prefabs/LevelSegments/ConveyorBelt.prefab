@@ -449,8 +449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strengthX: 0
-  strengthY: 25
-  strengthZ: 50
+  strengthY: 0
+  strengthZ: 20
   constant: 1
 --- !u!1 &3758244642776008084
 GameObject:
