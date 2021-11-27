@@ -100,7 +100,7 @@ namespace Grapplynth
                         newVelocity.x = (trampoline.strengthX * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
                         newVelocity.y = (trampoline.strengthY != 0 ? trampoline.strengthY : playerRB.velocity.y);
                         newVelocity.z = (trampoline.strengthX * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
-                        Debug.Log("Xvel: " + newVelocity.x + "   ZVel: " + newVelocity.z + "   Parent rotation: " + col.transform.parent.eulerAngles.y + " Parent rotation (radians): " + ((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        //Debug.Log("Xvel: " + newVelocity.x + "   ZVel: " + newVelocity.z + "   Parent rotation: " + col.transform.parent.eulerAngles.y + " Parent rotation (radians): " + ((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
                         playerRB.velocity = newVelocity;
                     }
                     break;

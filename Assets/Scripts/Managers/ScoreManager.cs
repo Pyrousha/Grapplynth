@@ -60,21 +60,18 @@ namespace Grapplynth {
 
         private void TurnScore() {
             m_currScore += 100;
-            Debug.Log("Update score: " + m_currScore);
             EventManager.OnScoreChanged.Invoke();
             // AudioManager.instance.PlayOneShot("turn_score");
         }
 
         private void SegmentScore() {
             m_currScore += Points;
-            Debug.Log("Update score from segment: " + m_currScore);
             EventManager.OnScoreChanged.Invoke();
             // AudioManager.instance.PlayOneShot("turn_score");
         }
 
         private void BarScore() {
             m_currScore += 50;
-            Debug.Log("Update score from bar: " + m_currScore);
             EventManager.OnScoreChanged.Invoke();
             // AudioManager.instance.PlayOneShot("turn_score");
         }

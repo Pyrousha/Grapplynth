@@ -1,22 +1,34 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Grapplynth {
     public class GenerateLevel : MonoBehaviour {
+        // object for spawn segment
         public Object spawnSegment;
-        int genID;
+        // track the ID of the current generator
+        public int genID;
+
+
+        // TODO: have this reset every time the scene is restarted
+        // tracks the current generator ID to give to a new generator
+        public static int currentGenID;
+
+        // track the player object
         public GameObject player;
-        public List<GameObject> levelSegments = new List<GameObject>();
-        int x = 0;
-        int y = 0;
-        int z = 0;
-        int numPieces = 0;
-        [SerializeField] private int maxPieces;
-        [SerializeField] private int maxSimultaneousTurns; // e.g. 3 turns = 3 hallways (not including forks)
+        // list of segment prefabs to use for the spawning process
+        public List<GameObject> segmentPrefabs = new List<GameObject>();
+        // x, y, z of this spawner
+        int x;
+        int y;
+        int z;
+        // random variable for generation
         private System.Random r;
-        // player moves towards positive z when the game begins
-        int rotation = 0;
+        // number of segments this spawner has made
+        int numSegments;
+        private int maxSimultaneousTurns;
+        // angle of level generator
+        int rotation;
         // track how many turns to make
         int lastTurn = 0;
         int turnThreshold = 10;
@@ -29,14 +41,13 @@ namespace Grapplynth {
         }
 
         // stores the initial hallway
-        GameObject[] initialHallway;
+        List<GameObject> initialHallway;
+        bool isSpawningInitial;
 
-        // store all the current hallways in queue, dequeuing old ones as needed
-        private Queue<GameObject[]> hallwayQueue = new Queue<GameObject[]>();
-        int hallwayQueueSize = 0;
+        // store all the current hallways in list, deleting old ones as needed
+        private Queue<List <GameObject>> hallwayQueue;
+        int hallwayQueueSize;
         int maxHallwayQueueSize = 3;
-
-        bool isSpawningInitial = true;
 
         private void OnEnable() {
             EventManager.OnTurnCorner.AddListener(GenerateNextSegment);
@@ -48,23 +59,35 @@ namespace Grapplynth {
 
         // Start is called before the first frame update
         void Start() {
+            // Debug.Log("Generate level created at: " + x + "," + y + "," + z);
+            // set seed
             GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
-            gameDB.gameSeed = (gameDB.textSeed == 0 ? Random.Range(-2000000000, 2000000000) : gameDB.textSeed); 
+            gameDB.gameSeed = (gameDB.textSeed == 0 ? Random.Range(-2000000000, 2000000000) : gameDB.textSeed);
             int seed = gameDB.gameSeed;
             r = new System.Random(seed);
-            int initialHallwaySize = (maxPieces > maxSimultaneousTurns ? maxPieces : maxSimultaneousTurns) + 1;
-            initialHallway = new GameObject[initialHallwaySize];
-            SegVals segvals = InstantiateSegment(-1);
-            MoveToNewPos(segvals.segmentScript);
-            initialHallway[0] = segvals.segment;
-            numPieces++;
-            // place player on perch
-            player = GameObject.Find("Player Hitbox");
-            player.transform.position = new Vector3(0, 15, 0);
-        }
-
-        public void GetCurrentSegment(GameObject segment) {
-
+            // set generator ID
+            this.genID = currentGenID;
+            // want initial path to branch a bit, others shouldn't branch as much to prevent lag
+            isSpawningInitial = (this.genID == 0 ? true : false);
+            maxSimultaneousTurns = (this.genID == 0 ? 3 : 1);
+            // initial hallway creation
+            initialHallway = new List <GameObject>();
+            // create spawn segment in case this is the first generator
+            if (this.genID == 0) {
+                // set hallway queue variables
+                hallwayQueue = new Queue<List <GameObject>>();
+                hallwayQueueSize = 0;
+                // spawn segment initialization
+                SegVals segvals = InstantiateSegment(-1);
+                MoveToNewPos(segvals.segmentScript);
+                initialHallway.Add(segvals.segment);
+                rotation = 0;
+                // place player on perch
+                player = GameObject.Find("Player Hitbox");
+                player.transform.position = new Vector3(0, 15, 0);
+            }
+            // increment for next generator ID
+            currentGenID++;
         }
 
         // Update is called once per frame
@@ -76,29 +99,28 @@ namespace Grapplynth {
         }
 
         private void InitialSpawn() {
-            if ((numPieces < maxPieces) && (numTurns < maxSimultaneousTurns)) {
+            if ((numTurns < maxSimultaneousTurns)) {
                 // pick a random piece, excluding the turns if one has been placed recently
                 //int startInd = (lastTurn > turnThreshold ? 0 : 4);
-                //int randomInd = Random.Range(startInd, levelSegments.Count);
-                int startRand = (lastTurn > turnThreshold ? 0 : 2);
+                int startRand = (lastTurn > turnThreshold ? 0 : 4);
                 // Ranomly generate an int between 0 and 6 (inclusive)
-                int randomInd = r.Next(startRand, levelSegments.Count);
+                int randomInd = r.Next(startRand, segmentPrefabs.Count);
 
                 // pick piece based on probability
                 SegVals segvals = InstantiateSegment(randomInd);
 
                 RotateForTurn(randomInd);
-                if (randomInd < 2) {
+                if (randomInd < 4) {
                     lastTurn = 0;
                     numTurns++;
                 }
 
                 MoveToNewPos(segvals.segmentScript);
 
-                initialHallway[numPieces] = segvals.segment;
+                initialHallway.Add(segvals.segment);
 
                 lastTurn++;
-                numPieces++;
+                numSegments++;
             }
             else {
                 isSpawningInitial = false;
@@ -111,34 +133,34 @@ namespace Grapplynth {
             int numNewPieces = r.Next(2, 10); // the number of segments in this hallway
 
             // Generate those segments
-            GameObject[] hallway = new GameObject[numNewPieces+1];
+            List <GameObject> hallway = new List<GameObject>();
 
             for (int s = 0; s < numNewPieces; s++) {
-                int randomInd = r.Next(2, levelSegments.Count); // intermediate pieces are never turns
+                int randomInd = r.Next(4, segmentPrefabs.Count); // intermediate pieces are never turns
 
                 SegVals segvals = InstantiateSegment(randomInd);
                 MoveToNewPos(segvals.segmentScript);
-                hallway[s] = segvals.segment;
-                numPieces++;
+                hallway.Add(segvals.segment);
+                numSegments++;
             }
             
             // Generate a turn
-            int turnInd = r.Next(0, 2); // left or right
+            int turnInd = r.Next(0, 4); // left or right
 
             SegVals segvalsturn = InstantiateSegment(turnInd);
 
             RotateForTurn(turnInd);
 
             MoveToNewPos(segvalsturn.segmentScript);
-            hallway[numNewPieces] = segvalsturn.segment;
-            numPieces++;
+            hallway.Add(segvalsturn.segment);
+            numSegments++;
 
             hallwayQueue.Enqueue(hallway);
             hallwayQueueSize++;
             //Debug.Log("number of hallways generated: " + hallwayQueueSize);
             if (hallwayQueueSize > maxHallwayQueueSize) {
                 //Debug.Log("deleting a hallway: " + hallwayQueueSize);
-                GameObject[] segmentsToDelete = hallwayQueue.Dequeue();
+                List <GameObject> segmentsToDelete = hallwayQueue.Dequeue();
                 DestroyHallway(segmentsToDelete);
                 hallwayQueueSize--;
             }
@@ -146,10 +168,16 @@ namespace Grapplynth {
 
         private void RotateForTurn(int randomInd) {
             // deal with turns by resetting the angle and rotating in the correct direction
-            if (randomInd < 2) {
-                // want to rotate 90 degrees if turning left, -90 (=270) if turning right
-                rotation = (rotation + (randomInd == 0 ? 270 : 90)) % 360;
-                // Debug.Log("coordinates are: " + x + " " + y + " " + z);
+            // want to rotate 270 unity degrees if turning left, 90 if turning right
+            switch (randomInd) {
+                case 0:
+                case 2:
+                    rotation = rotation + 270;
+                    break;
+                case 1:
+                case 3:
+                    rotation = rotation + 90;
+                    break;
             }
         }
 
@@ -158,7 +186,6 @@ namespace Grapplynth {
             x = x + ((rotation % 180 == 90 ? segmentScript.length : 0) * (rotation % 360 == 90 ? 1 : -1));
             y = y + segmentScript.deltay;
             z = z + ((rotation % 180 == 0 ? segmentScript.length : 0) * (rotation % 360 == 0 ? 1 : -1));
-
             // move level generator to new position
             transform.position = new Vector3(x, y, z);
         }
@@ -166,19 +193,35 @@ namespace Grapplynth {
         private SegVals InstantiateSegment(int segmentInd) {
             // pick piece based on probability
             SegVals segvals = new SegVals();
-            // create segment (normal case)
-            if (segmentInd != -1) {
-                segvals.segment = Instantiate(levelSegments[segmentInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
-            }
             // special case: spawn segment
-            else {
+            if (segmentInd == -1) {
                 segvals.segment = Instantiate((GameObject)spawnSegment, new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
+                segvals.segmentScript = segvals.segment.gameObject.GetComponent<SegmentScript>();
             }
-            segvals.segmentScript = segvals.segment.gameObject.GetComponent<SegmentScript>();
+            // spawn segment
+            else {
+                segvals.segment = Instantiate(segmentPrefabs[segmentInd], new Vector3(x, y, z), Quaternion.Euler(new Vector3(0, rotation, 0)));
+                segvals.segmentScript = segvals.segment.gameObject.GetComponent<SegmentScript>();
+                // fork segments
+                if (segmentInd == 2 || segmentInd == 3) {
+                    GameObject generateLevel = GameObject.Find("GenerateLevel");
+                    Vector3 generateLevelPos = new Vector3(generateLevel.transform.position.x, generateLevel.transform.position.y, generateLevel.transform.position.z);
+                    GameObject generateClone = Instantiate(generateLevel, generateLevelPos, Quaternion.Euler(new Vector3(0, rotation, 0)));
+                    GenerateLevel generateLevelClone = generateClone.GetComponent<GenerateLevel>();
+                    // TODO: move this to object constructor?
+                    generateLevelClone.x = x;
+                    generateLevelClone.y = y;
+                    generateLevelClone.z = z;
+                    generateLevelClone.hallwayQueue = new Queue<List <GameObject>>(hallwayQueue);
+                    generateLevelClone.hallwayQueueSize = hallwayQueueSize;
+                    generateLevelClone.rotation = rotation;
+                    generateLevelClone.MoveToNewPos(segvals.segmentScript);
+                }
+            }
             return segvals;
         }
 
-        private void DestroyHallway(GameObject[] hallway) {
+        private void DestroyHallway(List <GameObject> hallway) {
             foreach (GameObject segment in hallway){
                 Destroy(segment);
             }
