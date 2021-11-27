@@ -51,10 +51,20 @@ namespace Grapplynth {
 
         private void OnEnable() {
             EventManager.OnTurnCorner.AddListener(GenerateNextSegment);
+            EventManager.OnRestart.AddListener(ResetGenID);
         }
 
         private void OnDisable() {
             EventManager.OnTurnCorner.RemoveListener(GenerateNextSegment);
+            EventManager.OnRestart.RemoveListener(ResetGenID);
+        }
+
+        private void OnDestroy() {
+            ResetGenID();
+        }
+
+        private void ResetGenID() {
+            currentGenID = 0;
         }
 
         // Start is called before the first frame update
