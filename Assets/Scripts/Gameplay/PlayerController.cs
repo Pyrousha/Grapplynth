@@ -24,6 +24,11 @@ namespace Grapplynth
         [SerializeField] private GrappleGun rightGrapple;
         [SerializeField] private CameraFollow cameraFollow;
 
+        private bool touchingLeft;
+        private bool touchingRight;
+        int leftTouchFingerID;
+        int rightTouchFingerID;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -32,29 +37,115 @@ namespace Grapplynth
             leftGrapple.LoadVarsFromPlayerController(this);
             rightGrapple.LoadVarsFromPlayerController(this);
             cameraFollow.LoadVarsFromPlayerController(this);
+
+            touchingLeft = false;
+            touchingRight = false;
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Application.isEditor)
             {
-                leftGrapple.StartGrapple();
+                //On computer, use mouse input for grappling
+                if (Input.GetMouseButtonDown(0))
+                {
+                    leftGrapple.StartGrappleMouse();
+                }
+                else
+                {
+                    if (Input.GetMouseButtonUp(0))
+                        leftGrapple.EndGrapple();
+                }
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    rightGrapple.StartGrappleMouse();
+                }
+                else
+                {
+                    if (Input.GetMouseButtonUp(1))
+                        rightGrapple.EndGrapple();
+                }
             }
             else
             {
-                if (Input.GetMouseButtonUp(0))
-                    leftGrapple.EndGrapple();
+                //On phone (probably), use touch input
+                CheckForNewTouches();
+
+                if (touchingLeft == true)
+                {
+                    Touch leftTouch = Input.GetTouch(leftTouchFingerID);
+                    if ((leftTouch.phase == TouchPhase.Ended) || (leftTouch.phase == TouchPhase.Canceled))
+                    {
+                        //Left grapple finger was lifted, retract grappleHook
+                        leftGrapple.EndGrapple();
+                        touchingLeft = false;
+                    }
+                }
+
+                if (touchingRight == true)
+                {
+                    Touch rightTouch = Input.GetTouch(rightTouchFingerID);
+                    if ((rightTouch.phase == TouchPhase.Ended) || (rightTouch.phase == TouchPhase.Canceled))
+                    {
+                        //Right grapple finger was lifted, retract grappleHook
+                        rightGrapple.EndGrapple();
+                        touchingRight = false;
+                    }
+                }
             }
 
-            if (Input.GetMouseButtonDown(1))
+        }
+
+        private void CheckForNewTouches()
+        {
+            foreach (Touch touch in Input.touches)
             {
-                rightGrapple.StartGrapple();
-            }
-            else
-            {
-                if (Input.GetMouseButtonUp(1))
-                    rightGrapple.EndGrapple();
+                if (touch.phase == TouchPhase.Began) //Iterate over new touches
+                {
+                    if (touch.position.x <= Screen.width)
+                    {
+                        //Left side of screen, try to launch left grapple
+
+                        if (touchingLeft == false) //Able to shoot left grapple
+                        {
+                            leftGrapple.StartGrappleTouch(touch);
+                            leftTouchFingerID = touch.fingerId;
+                            touchingLeft = true;
+                        }
+                        else
+                        {
+                            if (touchingRight == false) //If left grapple is out, try to shoot right instead
+                            {
+                                rightGrapple.StartGrappleTouch(touch);
+                                rightTouchFingerID = touch.fingerId;
+                                touchingRight = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Right side of screen, try to launch right grapple
+
+                        if (touchingRight == false) //Try shooting right grapple first
+                        {
+                            rightGrapple.StartGrappleTouch(touch);
+                            rightTouchFingerID = touch.fingerId;
+                            touchingRight = true;
+                        }
+                        else
+                        {
+                            if (touchingLeft == false) //Right is out, try shooting left instead
+                            {
+                                leftGrapple.StartGrappleTouch(touch);
+                                leftTouchFingerID = touch.fingerId;
+                                touchingLeft = true;
+                            }
+                        }
+                    }
+
+                }
             }
         }
 
