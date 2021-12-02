@@ -30,7 +30,7 @@ namespace Grapplynth {
         private void OnTriggerEnter(Collider other) {
             rotatePlayer = true;
             startingRotation = transform.parent.eulerAngles.y;
-            Debug.Log("Start rotation: " + startingRotation);
+            //Debug.Log("Start rotation: " + startingRotation);
             playerTransform = other.transform;
 
             if (visited == false) {
@@ -46,9 +46,6 @@ namespace Grapplynth {
                     case CornerTypeEnum.left: {
                             dAngle = (Mathf.Atan2(playerTransform.position.z - transform.position.z, playerTransform.position.x - transform.position.x) * Mathf.Rad2Deg * -1);
                             float offset = (dAngle - startingRotation) % 360f;
-                            Debug.Log("Startingrotation left: " + startingRotation);
-                            Debug.Log("dAngle left: " + dAngle);
-                            Debug.Log("Offset left: " + offset);
                             if ((offset > 0) || (offset < -90))
                                 return;
                             break;
@@ -56,7 +53,6 @@ namespace Grapplynth {
                     case CornerTypeEnum.right: {
                             dAngle = (Mathf.Atan2(playerTransform.position.x - transform.position.x, playerTransform.position.z - transform.position.z) * Mathf.Rad2Deg + 90);
                             float offset = ((dAngle - startingRotation) + 360f) % 360f;
-                            Debug.Log("Offset right: " + offset);
                             if ((offset < 0) || (offset > 90))
                                 return;
                             break;
