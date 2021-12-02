@@ -8,6 +8,9 @@ namespace Grapplynth {
         private Transform playerTransform;
         private float startingRotation;
 
+        // the generator that this turn belongs to
+        public int generator;
+
         float dAngle;
 
         private bool visited = false;
@@ -16,6 +19,7 @@ namespace Grapplynth {
         private enum CornerTypeEnum {
             left,
             right,
+            fwd,
             up,
             down
         }
@@ -28,6 +32,8 @@ namespace Grapplynth {
         }
 
         private void OnTriggerEnter(Collider other) {
+            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            gameDB.currentGenID = generator;
             rotatePlayer = true;
             startingRotation = transform.parent.eulerAngles.y;
             //Debug.Log("Start rotation: " + startingRotation);

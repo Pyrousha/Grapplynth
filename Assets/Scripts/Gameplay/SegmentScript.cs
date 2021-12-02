@@ -8,7 +8,8 @@ public class SegmentScript : MonoBehaviour
     public int height;  // y
     public int length;  // z
     public int deltay;  // change in height
-    int ID;             // piece ID
+    public int ID;      // piece generator ID
+    public int segmentID;      // segment ID
     // Start is called before the first frame update
     void Start()
     {

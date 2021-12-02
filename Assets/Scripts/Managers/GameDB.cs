@@ -11,6 +11,7 @@ namespace Grapplynth {
 
         public int textSeed;
         public int gameSeed;
+        public int currentGenID;
 
         public static GameDB instance;
 
