@@ -33,11 +33,31 @@ public class GrappleGun : MonoBehaviour
         DrawRope();
     }
 
-    public void StartGrapple()
+    public void StartGrappleMouse()
     {
         RaycastHit hit;
 
         Vector3 pos = Input.mousePosition;
+        pos.z = 0;
+        Ray ray = Camera.main.ScreenPointToRay(pos);
+
+        if (Physics.Raycast(ray, out hit, maxDistance, whatIsGrapplable))
+        {
+            hookIsOut = true;
+
+            grapplePoint = hit.point;
+
+            grappleHook.ShootHook(grapplePoint);
+
+            lr.positionCount = 2;
+        }
+    }
+
+    public void StartGrappleTouch(Touch touch)
+    {
+        RaycastHit hit;
+
+        Vector3 pos = touch.position;
         pos.z = 0;
         Ray ray = Camera.main.ScreenPointToRay(pos);
 
