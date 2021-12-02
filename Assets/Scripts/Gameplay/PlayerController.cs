@@ -113,7 +113,7 @@ namespace Grapplynth
             {
                 if (touch.phase == TouchPhase.Began) //Iterate over new touches
                 {
-                    if (touch.position.x <= Screen.width)
+                    if (touch.position.x <= (Screen.width/2))
                     {
                         //Left side of screen, try to launch left grapple
 
