@@ -73,25 +73,34 @@ namespace Grapplynth
                 //On phone (probably), use touch input
                 CheckForNewTouches();
 
-                if (touchingLeft == true)
+                //Check if any fingers have just been lifted up
+                foreach (Touch touch in Input.touches)
                 {
-                    Touch leftTouch = Input.GetTouch(leftTouchFingerID);
-                    if ((leftTouch.phase == TouchPhase.Ended) || (leftTouch.phase == TouchPhase.Canceled))
+                    if ((touch.phase == TouchPhase.Ended) || (touch.phase == TouchPhase.Canceled)) //Check if any touches just ended
                     {
-                        //Left grapple finger was lifted, retract grappleHook
-                        leftGrapple.EndGrapple();
-                        touchingLeft = false;
-                    }
-                }
+                        if (touchingLeft)
+                        {
+                            //Check if left was lifted
+                            if (touch.fingerId == leftTouchFingerID)
+                            {
+                                //Left grapple finger was just lifted
+                                leftGrapple.EndGrapple();
+                                touchingLeft = false;
+                                continue;
+                            }
+                        }
 
-                if (touchingRight == true)
-                {
-                    Touch rightTouch = Input.GetTouch(rightTouchFingerID);
-                    if ((rightTouch.phase == TouchPhase.Ended) || (rightTouch.phase == TouchPhase.Canceled))
-                    {
-                        //Right grapple finger was lifted, retract grappleHook
-                        rightGrapple.EndGrapple();
-                        touchingRight = false;
+                        if (touchingRight)
+                        {
+                            if (touch.fingerId == rightTouchFingerID)
+                            {
+                                //Right grapple finger was just lifted
+                                rightGrapple.EndGrapple();
+                                touchingRight = false;
+                                continue;
+                            }
+                        }
+
                     }
                 }
             }
