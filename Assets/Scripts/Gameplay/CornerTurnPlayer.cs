@@ -33,6 +33,8 @@ namespace Grapplynth {
             //Debug.Log("Start rotation: " + startingRotation);
             playerTransform = other.transform;
 
+            GameManager.instance.SetMostRecentCorner(other.transform.position);
+
             if (visited == false) {
                 EventManager.OnTurnCorner.Invoke();
                 visited = true;

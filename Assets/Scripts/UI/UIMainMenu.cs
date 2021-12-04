@@ -17,6 +17,11 @@ namespace Grapplynth {
         private Button m_quitButton;
         [SerializeField]
         private GameObject m_settingsMenu;
+        [SerializeField]
+        private GameObject m_noAdsMenu;
+        [SerializeField]
+        private GameObject m_adsRewardMenu;
+
 
         #endregion
 
@@ -26,12 +31,18 @@ namespace Grapplynth {
             m_playGameButton.onClick.AddListener(HandlePlayGame);
             m_settingsButton.onClick.AddListener(HandleSettings);
             m_quitButton.onClick.AddListener(HandleQuit);
+
+            EventManager.OnNoAds.AddListener(HandleOnNoAds);
+            EventManager.OnAdReward.AddListener(HandleOnAdReward);
         }
 
         private void OnDisable() {
             m_playGameButton.onClick.RemoveAllListeners();
             m_settingsButton.onClick.RemoveAllListeners();
             m_quitButton.onClick.RemoveAllListeners();
+
+            EventManager.OnNoAds.RemoveListener(HandleOnNoAds);
+            EventManager.OnAdReward.RemoveListener(HandleOnAdReward);
         }
 
         #endregion
@@ -40,6 +51,7 @@ namespace Grapplynth {
 
         private void HandlePlayGame() {
             AudioManager.instance.PlayOneShot("click_play");
+            GameManager.instance.ResetKeepRunnings();
             SceneManager.LoadScene("Labyrinth");
             EventManager.OnStart.Invoke();
         }
@@ -56,6 +68,18 @@ namespace Grapplynth {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
+        }
+
+        #endregion
+
+        #region AdHandlers
+
+        private void HandleOnNoAds() {
+            m_noAdsMenu.SetActive(true);
+        }
+
+        private void HandleOnAdReward() {
+            m_adsRewardMenu.SetActive(true);
         }
 
         #endregion

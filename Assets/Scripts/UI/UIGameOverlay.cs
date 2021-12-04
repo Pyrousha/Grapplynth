@@ -28,6 +28,7 @@ namespace Grapplynth {
             EventManager.OnResume.AddListener(HandleOnResume);
             EventManager.OnRestart.AddListener(HandleOnRestart);
             EventManager.OnGameOver.AddListener(HandleOnGameOver);
+            EventManager.OnNewLife.AddListener(HandleOnNewLife);
 
             EventManager.OnTurnCorner.AddListener(UpdateScoreText);
 
@@ -91,6 +92,15 @@ namespace Grapplynth {
             m_gameOverMenu.SetActive(true);
             m_pauseButton.interactable = false;
         }
+
+        private void HandleOnNewLife() {
+            AudioManager.instance.PlayOneShot("click_play");
+            m_pauseMenu.SetActive(false);
+            m_pauseButton.interactable = true;
+
+            m_gameOverMenu.SetActive(false);
+        }
+
 
         #endregion
 
