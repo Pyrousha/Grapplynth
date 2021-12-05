@@ -9,12 +9,19 @@ public class RotateGrappleVisual : MonoBehaviour
     private Quaternion desiredRotation;
     private float rotationSpeed = 10;
 
+    private Vector3 startingRotation;
+
+    private void Start()
+    {
+        startingRotation = transform.localEulerAngles;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (grappleGun.IsGrappling == false)
         {
-            desiredRotation = Quaternion.Euler(Vector3.zero);
+            desiredRotation = Quaternion.Euler(startingRotation);
             transform.localRotation = Quaternion.Lerp(transform.localRotation, desiredRotation, Time.deltaTime * rotationSpeed);
         }
         else
