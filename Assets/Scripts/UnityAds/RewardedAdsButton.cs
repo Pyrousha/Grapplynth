@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Advertisements;
+using Grapplynth;
 
 public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener {
     [SerializeField] Button _showAdButton;
@@ -15,7 +16,8 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
             : _androidAdUnitId;
 
         //Disable button until ad is ready to show
-        _showAdButton.interactable = false;
+        _showAdButton.interactable = true;
+        _showAdButton.onClick.AddListener(HandleNoAds);
     }
 
     void Start() {
@@ -34,6 +36,7 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
         //Debug.Log("Ad Loaded: " + adUnitId);
 
         if (adUnitId.Equals(_adUnitId)) {
+            _showAdButton.onClick.RemoveListener(HandleNoAds);
             // Configure the button to call the ShowAd() method when clicked:
             _showAdButton.onClick.AddListener(ShowAd);
             // Enable the button for users to click:
@@ -44,9 +47,21 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
     // Implement a method to execute when the user clicks the button.
     public void ShowAd() {
         // Disable the button: 
-        _showAdButton.interactable = false;
+        // _showAdButton.interactable = false;
         // Then show the ad:
         Advertisement.Show(_adUnitId, this);
+
+        _showAdButton.onClick.RemoveListener(ShowAd);
+        _showAdButton.onClick.AddListener(HandleNoAds);
+    }
+
+    // Implement a method to execute when the user clicks the button.
+    public void HandleNoAds() {
+        EventManager.OnNoAds.Invoke();
+        //m_noAdsMenu.SetActive(true);
+
+        // Disable the button: 
+        _showAdButton.interactable = false;
     }
 
     // Implement the Show Listener's OnUnityAdsShowComplete callback method to determine if the user gets a reward:
@@ -54,7 +69,8 @@ public class RewardedAdsButton : MonoBehaviour, IUnityAdsLoadListener, IUnityAds
         if (adUnitId.Equals(_adUnitId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED)) {
             //Debug.Log("Unity Ads Rewarded Ad Completed");
             // Grant a reward.
-            Debug.Log("You earned a reward!");
+            EventManager.OnAdReward.Invoke();
+            // m_adsRewardMenu.SetActive(true);
             // Load another ad:
             Advertisement.Load(_adUnitId, this);
         }

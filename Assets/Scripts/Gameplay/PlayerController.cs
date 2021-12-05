@@ -40,6 +40,14 @@ namespace Grapplynth
 
             touchingLeft = false;
             touchingRight = false;
+
+            EventManager.OnNewLife.AddListener(HandleOnNewLife);
+
+            GameManager.instance.SetMostRecentCorner(this.transform.position);
+        }
+
+        private void OnDestroy() {
+            EventManager.OnNewLife.RemoveListener(HandleOnNewLife);
         }
 
         // Update is called once per frame
@@ -205,6 +213,10 @@ namespace Grapplynth
                     }
                     break;
             }
+        }
+
+        private void HandleOnNewLife() {
+            this.transform.position = GameManager.instance.GetMostRecentCorner();
         }
     }
 }

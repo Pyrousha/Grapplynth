@@ -17,6 +17,12 @@ namespace Grapplynth {
         private Text m_scoreText;
         [SerializeField]
         private Text m_highScoreText;
+        [SerializeField]
+        private GameObject m_noAdsMenu;
+        [SerializeField]
+        private GameObject m_adsRewardMenu;
+        [SerializeField]
+        private Button m_keepRunningButton;
 
         #endregion
 
@@ -27,6 +33,11 @@ namespace Grapplynth {
             m_playAgainButton.onClick.AddListener(HandlePlayAgain);
 
             UpdateScoreText();
+
+            EventManager.OnNoAds.AddListener(HandleOnNoAds);
+            EventManager.OnAdReward.AddListener(HandleOnAdReward);
+
+            m_keepRunningButton.interactable = GameManager.instance.CanKeepRunning();
         }
 
         private void OnDisable() {
@@ -34,6 +45,9 @@ namespace Grapplynth {
             m_playAgainButton.onClick.RemoveAllListeners();
 
             m_highScoreText.gameObject.SetActive(false);
+
+            EventManager.OnNoAds.RemoveListener(HandleOnNoAds);
+            EventManager.OnAdReward.RemoveListener(HandleOnAdReward);
         }
 
         #endregion
@@ -42,6 +56,8 @@ namespace Grapplynth {
 
         private void HandleMainMenu() {
             AudioManager.instance.PlayOneShot("click_default");
+
+            EventManager.OnReturnMain.Invoke();
 
             SceneManager.LoadScene("MainMenu");
         }
@@ -61,5 +77,17 @@ namespace Grapplynth {
                 m_highScoreText.gameObject.SetActive(true);
             }
         }
+
+        #region AdHandlers
+
+        private void HandleOnNoAds() {
+            m_noAdsMenu.SetActive(true);
+        }
+
+        private void HandleOnAdReward() {
+            m_adsRewardMenu.SetActive(true);
+        }
+
+        #endregion
     }
 }

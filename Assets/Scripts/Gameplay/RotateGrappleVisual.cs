@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateGrappleVisual : MonoBehaviour
-{
-    [SerializeField] private GrappleGun grappleGun;
+namespace Grapplynth {
+    public class RotateGrappleVisual : MonoBehaviour {
+        [SerializeField] private GrappleGun grappleGun;
 
-    private Quaternion desiredRotation;
-    private float rotationSpeed = 10;
+        private Quaternion desiredRotation;
+        private float rotationSpeed = 10;
 
     private Vector3 startingRotation;
 

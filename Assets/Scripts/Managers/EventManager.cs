@@ -10,6 +10,8 @@ namespace Grapplynth {
         public static UnityEvent OnResume;
         public static UnityEvent OnRestart;
         public static UnityEvent OnGameOver;
+        public static UnityEvent OnNewLife;
+        public static UnityEvent OnReturnMain;
 
         public static UnityEvent OnTurnCorner;
 
@@ -19,12 +21,17 @@ namespace Grapplynth {
 
         public static UnityEvent OnScoreChanged;
 
+        public static UnityEvent OnNoAds;
+        public static UnityEvent OnAdReward;
+
         private void OnEnable() {
             OnStart = new UnityEvent();
             OnPause = new UnityEvent();
             OnResume = new UnityEvent();
             OnRestart = new UnityEvent();
             OnGameOver = new UnityEvent();
+            OnNewLife = new UnityEvent();
+            OnReturnMain = new UnityEvent();
 
             OnTurnCorner = new UnityEvent();
 
@@ -33,6 +40,9 @@ namespace Grapplynth {
             OnSegmentScore = new UnityEvent();
 
             OnScoreChanged = new UnityEvent();
+
+            OnNoAds = new UnityEvent();
+            OnAdReward = new UnityEvent();
         }
     }
 }
