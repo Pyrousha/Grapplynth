@@ -8,12 +8,8 @@ public class SegmentScript : MonoBehaviour
     public int height;  // y
     public int length;  // z
     public int deltay;  // change in height
-<<<<<<< Updated upstream
-    int ID;             // piece ID
-=======
     public int segmentID;      // segment ID
     public int generatorID;      // segment ID
->>>>>>> Stashed changes
     // Start is called before the first frame update
     void Start()
     {

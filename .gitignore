@@ -68,3 +68,4 @@ crashlytics-build.properties
 # Local History for Visual Studio Code
 .history/
 
+*.meta

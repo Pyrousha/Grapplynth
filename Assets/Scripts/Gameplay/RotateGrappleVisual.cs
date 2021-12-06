@@ -9,25 +9,26 @@ namespace Grapplynth {
         private Quaternion desiredRotation;
         private float rotationSpeed = 10;
 
-    private Vector3 startingRotation;
+        private Vector3 startingRotation;
 
-    private void Start()
-    {
-        startingRotation = transform.localEulerAngles;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (grappleGun.IsGrappling == false)
+        private void Start()
         {
-            desiredRotation = Quaternion.Euler(startingRotation);
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, desiredRotation, Time.deltaTime * rotationSpeed);
+            startingRotation = transform.localEulerAngles;
         }
-        else
+
+        // Update is called once per frame
+        void Update()
         {
-            desiredRotation = Quaternion.LookRotation(grappleGun.GetGrapplePoint - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * rotationSpeed);
+            if (grappleGun.IsGrappling == false)
+            {
+                desiredRotation = Quaternion.Euler(startingRotation);
+                transform.localRotation = Quaternion.Lerp(transform.localRotation, desiredRotation, Time.deltaTime * rotationSpeed);
+            }
+            else
+            {
+                desiredRotation = Quaternion.LookRotation(grappleGun.GetGrapplePoint - transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * rotationSpeed);
+            }
         }
     }
 }
