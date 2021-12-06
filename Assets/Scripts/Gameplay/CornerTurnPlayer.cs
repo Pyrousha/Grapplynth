@@ -71,6 +71,9 @@ namespace Grapplynth {
         }
 
         private void OnTriggerExit(Collider other) {
+            if (cornerType == CornerTypeEnum.fwd) {
+                return;
+            }
             //Rotate player to nearest 90 degrees
             //Debug.Log("currRotation: " + (startingRotation + dAngle) + ", roundedRotation: "+ Mathf.Round((startingRotation + dAngle) / 90f) * 90);
 
