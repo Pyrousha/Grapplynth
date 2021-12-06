@@ -342,8 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4582d1ae9e87ea438f1cdf50ec0d53a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
-=======
 --- !u!1 &1477420667103357593
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +401,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: 0
   cornerType: 2
->>>>>>> Stashed changes
 --- !u!1 &2074436966205278968
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,8 +744,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-<<<<<<< Updated upstream
-=======
 --- !u!1 &7665597125913455690
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +803,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: 0
   cornerType: 1
->>>>>>> Stashed changes
 --- !u!1 &7967736003155023501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1055,11 +1049,8 @@ MonoBehaviour:
   height: 30
   length: 10
   deltay: 0
-<<<<<<< Updated upstream
-=======
   segmentID: 0
   generatorID: 0
->>>>>>> Stashed changes
 --- !u!1 &7976027018319578113
 GameObject:
   m_ObjectHideFlags: 0

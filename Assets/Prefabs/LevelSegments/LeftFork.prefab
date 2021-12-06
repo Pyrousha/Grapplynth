@@ -57,10 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68862745bc61854791c65292490af50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
-=======
   generator: 0
->>>>>>> Stashed changes
   cornerType: 0
 --- !u!1 &948154062694372971
 GameObject:
@@ -201,11 +198,8 @@ MonoBehaviour:
   height: 30
   length: 10
   deltay: 0
-<<<<<<< Updated upstream
-=======
   segmentID: 0
   generatorID: 0
->>>>>>> Stashed changes
 --- !u!1 &2765479405846445541
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,8 +385,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!1 &3504723008803391439
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +444,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: 0
   cornerType: 2
->>>>>>> Stashed changes
 --- !u!1 &3952243954405822023
 GameObject:
   m_ObjectHideFlags: 0
