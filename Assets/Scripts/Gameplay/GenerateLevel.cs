@@ -68,6 +68,8 @@ namespace Grapplynth {
 
         private void ResetGenID() {
             nextGenID = 0;
+            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            gameDB.currentGenID = 0;
         }
 
         void Awake() {

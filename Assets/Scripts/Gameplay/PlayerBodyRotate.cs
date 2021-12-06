@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Grapplynth {
 public class PlayerBodyRotate : MonoBehaviour
 {
     [SerializeField] private Transform bodyTransform;
@@ -73,7 +74,7 @@ public class PlayerBodyRotate : MonoBehaviour
         Vector3 currVelocity = rb.velocity;
         Vector3 rotatedVelocity = Quaternion.Euler(0,-transform.rotation.eulerAngles.y,0) * currVelocity; //Rotate velocity vector to be relative to the player's facing direction
 
-        Debug.Log("rotation: " + transform.rotation.eulerAngles.y + ", velocity: " + currVelocity + ", rotatedVelocity: " + rotatedVelocity);
+        //Debug.Log("rotation: " + transform.rotation.eulerAngles.y + ", velocity: " + currVelocity + ", rotatedVelocity: " + rotatedVelocity);
 
         float velX = rotatedVelocity.x * 2;
         float velZ = rotatedVelocity.z;
@@ -85,4 +86,5 @@ public class PlayerBodyRotate : MonoBehaviour
 
         bodyTransform.localRotation = Quaternion.Lerp(bodyTransform.localRotation, desiredRotation, Time.deltaTime * bodyRotationSpeed);
     }
+}
 }
