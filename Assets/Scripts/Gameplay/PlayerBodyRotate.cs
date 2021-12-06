@@ -6,8 +6,8 @@ public class PlayerBodyRotate : MonoBehaviour
 {
     [SerializeField] private Transform bodyTransform;
     [SerializeField] private Transform headTransform;
-    [SerializeField] private Grapplynth.GrappleGun leftGrappleGun;
-    [SerializeField] private Grapplynth.GrappleGun rightGrappleGun;
+    [SerializeField] private GrappleGun leftGrappleGun;
+    [SerializeField] private GrappleGun rightGrappleGun;
 
     private Rigidbody rb;
 
@@ -73,7 +73,7 @@ public class PlayerBodyRotate : MonoBehaviour
         Vector3 currVelocity = rb.velocity;
         Vector3 rotatedVelocity = Quaternion.Euler(0,-transform.rotation.eulerAngles.y,0) * currVelocity; //Rotate velocity vector to be relative to the player's facing direction
 
-        //Debug.Log("rotation: " + transform.rotation.eulerAngles.y + ", velocity: " + currVelocity + ", rotatedVelocity: " + rotatedVelocity);
+        Debug.Log("rotation: " + transform.rotation.eulerAngles.y + ", velocity: " + currVelocity + ", rotatedVelocity: " + rotatedVelocity);
 
         float velX = rotatedVelocity.x * 2;
         float velZ = rotatedVelocity.z;

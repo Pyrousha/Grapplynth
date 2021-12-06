@@ -97,8 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: c73a82965b906eb4d9a00e03a5b3f99a,
-    type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -805,9 +804,6 @@ MonoBehaviour:
   m_playAgainButton: {fileID: 675047822}
   m_scoreText: {fileID: 1422268114}
   m_highScoreText: {fileID: 1012993421}
-  m_noAdsMenu: {fileID: 0}
-  m_adsRewardMenu: {fileID: 0}
-  m_keepRunningButton: {fileID: 0}
 --- !u!1001 &377313535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2321,7 +2317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1026195036
 Transform:
   m_ObjectHideFlags: 0
