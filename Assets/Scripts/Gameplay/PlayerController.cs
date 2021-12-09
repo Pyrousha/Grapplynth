@@ -176,6 +176,7 @@ namespace Grapplynth
             }
         }
 
+        // add velocity once
         public void OnCollisionEnter(Collision col)
         {
             switch (col.gameObject.layer) {
@@ -188,14 +189,22 @@ namespace Grapplynth
                     // set velocity components based on trampoline attributes
                     Trampoline trampoline = col.gameObject.GetComponent<Trampoline>();
                     Vector3 newVelocity = new Vector3(0,0,0);
-                    newVelocity.x = (trampoline.strengthX != 0 ? trampoline.strengthX : playerRB.velocity.x);
+                    newVelocity.x = (trampoline.strengthX * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                    if (Mathf.Abs(newVelocity.x) < 0.0001) {
+                        newVelocity.x = playerRB.velocity.x;
+                    }
                     newVelocity.y = (trampoline.strengthY != 0 ? trampoline.strengthY : playerRB.velocity.y);
-                    newVelocity.z = (trampoline.strengthZ != 0 ? trampoline.strengthZ : playerRB.velocity.z);
+                    newVelocity.z = (-trampoline.strengthX * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                    if (Mathf.Abs(newVelocity.z) < 0.0001) {
+                        newVelocity.z = playerRB.velocity.z;
+                    }
+                    Debug.Log("Xvel: " + newVelocity.x + "   ZVel: " + newVelocity.z + "   Parent rotation: " + col.transform.parent.eulerAngles.y + " Parent rotation (radians): " + ((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
                     playerRB.velocity = newVelocity;
                     break;
             }
         }
 
+        // add constant velocity
         public void OnCollisionStay(Collision col)
         {
             switch (col.gameObject.layer) {
@@ -206,10 +215,36 @@ namespace Grapplynth
                     if (trampoline.constant > 0) {
                         Vector3 newVelocity = new Vector3(0,0,0);
                         newVelocity.x = (trampoline.strengthX * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        if (Mathf.Abs(newVelocity.x) < 0.0001) {
+                            newVelocity.x = playerRB.velocity.x;
+                        }
                         newVelocity.y = (trampoline.strengthY != 0 ? trampoline.strengthY : playerRB.velocity.y);
-                        newVelocity.z = (trampoline.strengthX * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        newVelocity.z = (-trampoline.strengthX * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        if (Mathf.Abs(newVelocity.z) < 0.0001) {
+                            newVelocity.z = playerRB.velocity.z;
+                        }
                         //Debug.Log("Xvel: " + newVelocity.x + "   ZVel: " + newVelocity.z + "   Parent rotation: " + col.transform.parent.eulerAngles.y + " Parent rotation (radians): " + ((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
                         playerRB.velocity = newVelocity;
+                    }
+                    break;
+            }
+        }
+
+        // acceleration
+        public void OnTriggerStay(Collider col)
+        {
+            switch (col.gameObject.layer) {
+                // landing on trampoline: bounce up
+                case 13:
+                    // set velocity components based on trampoline attributes
+                    Trampoline trampoline = col.gameObject.GetComponent<Trampoline>();
+                    if (trampoline.constant > 0) {
+                        Vector3 newVelocity = new Vector3(0,0,0);
+                        newVelocity.x = (trampoline.strengthX * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        newVelocity.y = (trampoline.strengthY != 0 ? trampoline.strengthY : playerRB.velocity.y);
+                        newVelocity.z = (-trampoline.strengthX * Mathf.Sin((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f)) + (trampoline.strengthZ * Mathf.Cos((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        //Debug.Log("Xvel: " + newVelocity.x + "   ZVel: " + newVelocity.z + "   Parent rotation: " + col.transform.parent.eulerAngles.y + " Parent rotation (radians): " + ((col.transform.parent.eulerAngles.y * Mathf.PI)/180.0f));
+                        playerRB.velocity += newVelocity;
                     }
                     break;
             }

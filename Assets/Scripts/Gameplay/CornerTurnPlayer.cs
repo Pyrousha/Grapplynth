@@ -36,7 +36,7 @@ namespace Grapplynth {
             gameDB.currentGenID = generator;
             rotatePlayer = true;
             startingRotation = transform.parent.eulerAngles.y;
-            //Debug.Log("Start rotation: " + startingRotation);
+            Debug.Log("Start rotation: " + startingRotation);
             playerTransform = other.transform;
 
             GameManager.instance.SetMostRecentCorner(other.transform.position);
@@ -65,12 +65,15 @@ namespace Grapplynth {
                                 return;
                             break;
                         }
+                    default:
+                        return;
+                        break;
                 }
 
                 //Mathf.Clamp(dAngle, startingRotation, startingRotation + 90);
-                //Debug.Log("DAngle: "+dAngle);
-                //Debug.Log("DAngle - Starting: " + (dAngle - startingRotation)%360f);
-                //Debug.Log(Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)));
+                Debug.Log("DAngle: "+dAngle);
+                Debug.Log("DAngle - Starting: " + (dAngle - startingRotation)%360f);
+                Debug.Log(Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)));
                 //if (Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)) <= 45)
                 playerTransform.rotation = Quaternion.Euler(new Vector3(0, dAngle, 0));
             }
@@ -81,7 +84,7 @@ namespace Grapplynth {
                 return;
             }
             //Rotate player to nearest 90 degrees
-            //Debug.Log("currRotation: " + (startingRotation + dAngle) + ", roundedRotation: "+ Mathf.Round((startingRotation + dAngle) / 90f) * 90);
+            Debug.Log("currRotation: " + (startingRotation + dAngle) + ", roundedRotation: "+ Mathf.Round((startingRotation + dAngle) / 90f) * 90);
 
             float offset = Mathf.Abs((dAngle - startingRotation) % 360f); //between 0 and 90
             if (offset < 45)
