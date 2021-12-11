@@ -9,6 +9,8 @@ namespace Grapplynth {
         private Button m_giftButton;
         [SerializeField]
         private GameObject m_rewardMenu;
+        [SerializeField]
+        private Button[] m_buttonsToEnable;
 
         private void OnEnable() {
             m_giftButton.onClick.AddListener(HandleUnlockSkin);
@@ -21,6 +23,10 @@ namespace Grapplynth {
         private void HandleUnlockSkin() {
             GameDB.instance.RandomlyUnlockNewSkin();
             m_rewardMenu.SetActive(false);
+
+            foreach (Button button in m_buttonsToEnable) {
+                button.interactable = true;
+            }
         }
     }
 }

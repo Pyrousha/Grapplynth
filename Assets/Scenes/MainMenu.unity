@@ -847,6 +847,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_giftButton: {fileID: 786314645}
   m_rewardMenu: {fileID: 1507992356}
+  m_buttonsToEnable:
+  - {fileID: 985457425}
 --- !u!114 &786314645
 MonoBehaviour:
   m_ObjectHideFlags: 0
