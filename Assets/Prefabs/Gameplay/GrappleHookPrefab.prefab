@@ -60,7 +60,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
   guntipTransform: {fileID: 0}
-  hookState: 3
 --- !u!1 &3370987327736242267
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +202,12 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: fcbc12db088f2af43bcd698b09111dc3, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 97381cebbb6b1004a92f10839cbbc9b2,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -8155604759272903815, guid: 3b67759738a914145b1edc693cba6320,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 97381cebbb6b1004a92f10839cbbc9b2,
         type: 3}
       propertyPath: m_Name
