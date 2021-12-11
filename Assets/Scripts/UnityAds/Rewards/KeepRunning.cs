@@ -10,6 +10,7 @@ namespace Grapplynth {
 
         private void OnEnable() {
             m_keepRunningButton.onClick.AddListener(HandleKeepRunning);
+            Debug.Log("enabled");
         }
 
         private void OnDisable() {

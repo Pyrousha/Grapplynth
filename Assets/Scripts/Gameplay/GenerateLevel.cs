@@ -69,7 +69,7 @@ namespace Grapplynth {
 
         private void ResetGenID() {
             nextGenID = 0;
-            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            GameDB gameDB = GameDB.instance;
             gameDB.currentGenID = 0;
         }
 
@@ -84,7 +84,7 @@ namespace Grapplynth {
         // Start is called before the first frame update
         void Start() {
             // set seed
-            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            GameDB gameDB = GameDB.instance;
             gameDB.gameSeed = (gameDB.textSeed == 0 ? Random.Range(-2000000000, 2000000000) : gameDB.textSeed);
             int seed = gameDB.gameSeed;
             r = new System.Random(seed);
@@ -162,7 +162,7 @@ namespace Grapplynth {
 
         private void GenerateNextHallway() {
             Debug.Log("Generator " + genID + " trying to generate a hallway. Has " + hallwayList.Count + " hallways.");
-            GameDB gameDB = GameObject.Find("GameDB").GetComponent<GameDB>();
+            GameDB gameDB = GameDB.instance;
             // don't generate a segment if this isn't the current generator or a future hallway
             if (killed == true || (genID != gameDB.currentGenID && hallwayList.Count > 1)) {
                 //Debug.Log("Generator " + genID + " failed to generate a hallway. Has " + hallwayList.Count + " hallways.");

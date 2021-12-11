@@ -38,6 +38,7 @@ namespace Grapplynth {
             EventManager.OnPause.AddListener(HandleOnPause);
             EventManager.OnResume.AddListener(HandleOnResume);
             EventManager.OnRestart.AddListener(HandleOnRestart);
+            EventManager.OnNewLife.AddListener(HandleOnNewLife);
             EventManager.OnReturnMain.AddListener(HandleOnReturnMain);
         }
 
@@ -49,7 +50,6 @@ namespace Grapplynth {
         public void SetCurrSkin(string id) {
             m_currSkinData = GameDB.GetSkinData(id);
         }
-
 
         public Vector3 GetMostRecentCorner() {
             return m_mostRecentCornerPos;
@@ -81,6 +81,12 @@ namespace Grapplynth {
         }
 
         private void HandleOnRestart() {
+            m_gameIsPaused = false;
+            Time.timeScale = 1;
+        }
+
+
+        private void HandleOnNewLife() {
             m_gameIsPaused = false;
             Time.timeScale = 1;
         }

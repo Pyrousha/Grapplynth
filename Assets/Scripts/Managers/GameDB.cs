@@ -8,9 +8,16 @@ namespace Grapplynth {
         private AudioData[] m_audioData;
         [SerializeField]
         private SkinData[] m_skinData;
+        [SerializeField]
+        private Color m_skinSlotSelected;
+        [SerializeField]
+        private Color m_skinSlotUnselected;
 
         private Dictionary<string, AudioData> m_audioMap;
         private Dictionary<string, SkinData> m_skinMap;
+
+        private Dictionary<string, bool> m_skinsUnlocked;
+        private List<string> m_skinsToUnlock;
 
         public int textSeed;
         public int gameSeed;
@@ -25,6 +32,16 @@ namespace Grapplynth {
             }
             else if (instance != this) {
                 Destroy(this.gameObject);
+            }
+
+            instance.m_skinsUnlocked = new Dictionary<string, bool>();
+            instance.m_skinsToUnlock = new List<string>();
+            foreach (SkinData sd in m_skinData) {
+                instance.m_skinsUnlocked.Add(sd.ID, sd.StartUnlocked);
+
+                if (!sd.StartUnlocked) {
+                    instance.m_skinsToUnlock.Add(sd.ID);
+                }
             }
         }
 
@@ -62,6 +79,36 @@ namespace Grapplynth {
                     "with id `{0}' is in the database", id
                 ));
             }
+        }
+
+        public bool IsSkinUnlocked(string id) {
+            return m_skinsUnlocked[id];
+        }
+        public void UnlockSkin(string id) {
+            m_skinsUnlocked[id] = true;
+        }
+
+        public Color GetSlotColor(bool selected) {
+            if (selected) {
+                return new Color(m_skinSlotSelected.r, m_skinSlotSelected.g, m_skinSlotSelected.b);
+            }
+            else {
+                return new Color(m_skinSlotUnselected.r, m_skinSlotUnselected.g, m_skinSlotUnselected.b);
+            }
+        }
+
+        public string RandomlyUnlockNewSkin() {
+            if (m_skinsToUnlock.Count == 0) {
+                return null;
+            }
+
+            int index = Random.Range(0, m_skinsToUnlock.Count);
+            string unlockedID = m_skinsToUnlock[index];
+            m_skinsToUnlock.RemoveAt(index);
+
+            UnlockSkin(unlockedID);
+
+            return unlockedID;
         }
     }
 }

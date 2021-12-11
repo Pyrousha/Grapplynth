@@ -8,6 +8,8 @@ namespace Grapplynth {
 
         [SerializeField]
         private Button m_closeButton;
+        [SerializeField]
+        private Button[] m_buttonsToEnable;
 
         #endregion
 
@@ -24,6 +26,9 @@ namespace Grapplynth {
         private void HandleClose() {
             AudioManager.instance.PlayOneShot("click_default");
             this.gameObject.SetActive(false);
+            foreach (Button button in m_buttonsToEnable) {
+               button.interactable = true;
+            }
         }
 
         #endregion

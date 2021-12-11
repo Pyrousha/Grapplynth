@@ -16,7 +16,13 @@ namespace Grapplynth {
         [SerializeField]
         private Button m_quitButton;
         [SerializeField]
+        private Button m_adButton;
+        [SerializeField]
+        private Button m_selectSkinButton;
+        [SerializeField]
         private GameObject m_settingsMenu;
+        [SerializeField]
+        private GameObject m_skinSelectionMenu;
         [SerializeField]
         private GameObject m_noAdsMenu;
         [SerializeField]
@@ -31,6 +37,7 @@ namespace Grapplynth {
             m_playGameButton.onClick.AddListener(HandlePlayGame);
             m_settingsButton.onClick.AddListener(HandleSettings);
             m_quitButton.onClick.AddListener(HandleQuit);
+            m_selectSkinButton.onClick.AddListener(HandleSelectSkin);
 
             EventManager.OnNoAds.AddListener(HandleOnNoAds);
             EventManager.OnAdReward.AddListener(HandleOnAdReward);
@@ -40,6 +47,7 @@ namespace Grapplynth {
             m_playGameButton.onClick.RemoveAllListeners();
             m_settingsButton.onClick.RemoveAllListeners();
             m_quitButton.onClick.RemoveAllListeners();
+            m_selectSkinButton.onClick.RemoveListener(HandleSelectSkin);
 
             EventManager.OnNoAds.RemoveListener(HandleOnNoAds);
             EventManager.OnAdReward.RemoveListener(HandleOnAdReward);
@@ -70,15 +78,25 @@ namespace Grapplynth {
 #endif
         }
 
+        private void HandleSelectSkin() {
+            AudioManager.instance.PlayOneShot("click_default");
+
+            m_skinSelectionMenu.SetActive(true);
+        }
+
         #endregion
 
         #region AdHandlers
 
         private void HandleOnNoAds() {
+            m_adButton.interactable = false;
+            m_selectSkinButton.interactable = false;
             m_noAdsMenu.SetActive(true);
         }
 
         private void HandleOnAdReward() {
+            m_adButton.interactable = false;
+            m_selectSkinButton.interactable = false;
             m_adsRewardMenu.SetActive(true);
         }
 

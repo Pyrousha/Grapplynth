@@ -11,10 +11,15 @@ namespace Grapplynth {
         public Material Material {
             get { return m_material; }
         }
+        public bool StartUnlocked {
+            get { return m_startUnlocked; }
+        }
 
         [SerializeField]
         private string m_id;
         [SerializeField]
         private Material m_material;
+        [SerializeField]
+        private bool m_startUnlocked = false;
     }
 }

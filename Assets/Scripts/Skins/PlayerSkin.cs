@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Grapplynth {
     public class PlayerSkin : MonoBehaviour {
         [SerializeField]
-        private MeshRenderer m_meshRenderer;
+        private MeshRenderer[] m_meshRenderers;
 
         private SkinData m_skinData;
 
@@ -16,7 +16,9 @@ namespace Grapplynth {
         private void SetSkin() {
             m_skinData = GameManager.instance.GetCurrSkin();
 
-            m_meshRenderer.material = m_skinData.Material;
+            foreach (MeshRenderer mr in m_meshRenderers) {
+                mr.material = m_skinData.Material;
+            }
         }
     }
 }
