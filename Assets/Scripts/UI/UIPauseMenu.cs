@@ -46,6 +46,8 @@ namespace Grapplynth {
         }
 
         private void HandleRestart() {
+            AudioManager.instance.PlayAudio("labyrinth", true);
+
             EventManager.OnRestart.Invoke();
         }
 

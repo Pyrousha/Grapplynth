@@ -2552,6 +2552,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f22f52f2bff36040b212cdc10a5b5dd, type: 2}
   - {fileID: 11400000, guid: 37a76a4208f145643a876925b08c8bd1, type: 2}
   - {fileID: 11400000, guid: ff0cf01f95b931c46b158dec7a06d58a, type: 2}
+  - {fileID: 11400000, guid: 66f005f0cd89cfd4bbfb74b203ba4c3c, type: 2}
+  - {fileID: 11400000, guid: 0e58a832b59a1a84eb72ff1e234efbe8, type: 2}
   m_skinData:
   - {fileID: 11400000, guid: dc1dfc08c9b0707409f0405ebad5fcc2, type: 2}
   - {fileID: 11400000, guid: 29de3a1d4d625174fb2521875b37e36b, type: 2}

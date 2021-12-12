@@ -57,12 +57,17 @@ namespace Grapplynth {
             EventManager.OnAdReward.RemoveListener(HandleOnAdReward);
         }
 
+        private void Start() {
+            AudioManager.instance.PlayAudio("title", true);
+        }
+
         #endregion
 
         #region ButtonHandlers
 
         private void HandlePlayGame() {
             AudioManager.instance.PlayOneShot("click_play");
+            AudioManager.instance.PlayAudio("labyrinth", true);
             GameManager.instance.ResetKeepRunnings();
             SceneManager.LoadScene("Labyrinth");
             EventManager.OnStart.Invoke();

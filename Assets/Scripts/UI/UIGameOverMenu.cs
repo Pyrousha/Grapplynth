@@ -29,6 +29,8 @@ namespace Grapplynth {
         #region Unity Callbacks
 
         private void OnEnable() {
+            AudioManager.instance.PauseAudio();
+
             m_mainMenuButton.onClick.AddListener(HandleMainMenu);
             m_playAgainButton.onClick.AddListener(HandlePlayAgain);
 
@@ -64,6 +66,8 @@ namespace Grapplynth {
 
         private void HandlePlayAgain() {
             AudioManager.instance.PlayOneShot("click_play");
+
+            AudioManager.instance.PlayAudio("labyrinth", true);
 
             EventManager.OnRestart.Invoke();
         }

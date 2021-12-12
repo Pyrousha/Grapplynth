@@ -65,6 +65,7 @@ namespace Grapplynth {
 
         private void HandleOnPause() {
             AudioManager.instance.PlayOneShot("click_default");
+            AudioManager.instance.PauseAudio();
 
             m_pauseMenu.SetActive(true);
             m_pauseButton.interactable = false;
@@ -72,6 +73,7 @@ namespace Grapplynth {
 
         private void HandleOnResume() {
             AudioManager.instance.PlayOneShot("click_default");
+            AudioManager.instance.UnPauseAudio();
 
             m_pauseMenu.SetActive(false);
             m_pauseButton.interactable = true;

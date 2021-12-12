@@ -20,6 +20,9 @@ namespace Grapplynth {
         private void HandleKeepRunning() {
             EventManager.OnNewLife.Invoke();
             m_AdRewardMenu.SetActive(false);
+
+            AudioManager.instance.UnPauseAudio();
+
             GameManager.instance.IncrementKeepRunnings();
         }
     }

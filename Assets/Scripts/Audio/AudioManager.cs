@@ -45,7 +45,7 @@ namespace Grapplynth {
 
         #region Unity Callbacks
 
-        private void Awake() {
+        private void OnEnable() {
             // ensure there is only one AudioManager at any given time
             if (instance == null) {
                 instance = this;
@@ -84,6 +84,13 @@ namespace Grapplynth {
         public void StopAudio() {
             m_audioSrc.Stop();
             //m_audioSrc.clip = null;
+        }
+
+        public void PauseAudio() {
+            m_audioSrc.Pause();
+        }
+        public void UnPauseAudio() {
+            m_audioSrc.UnPause();
         }
 
         public void ResumeAudio() {
@@ -182,6 +189,30 @@ namespace Grapplynth {
         public void PlayOneShot(string clipID) {
             AudioClip clip = GameDB.GetAudioData(clipID).Clip;
             m_audioSrc.PlayOneShot(clip);
+        }
+
+        #endregion
+
+        #region EventHandlers
+
+        private void HandleOnStart() {
+            PlayAudio("labyrinth", true);
+        }
+
+        private void HandleOnPause () {
+            PauseAudio();
+        }
+        private void HandleOnResume() {
+            UnPauseAudio();
+        }
+        private void HandleOnRestart() {
+            PlayAudio("labyrinth", true);
+        }
+        private void HandleOnGameOver() {
+            PauseAudio();
+        }
+        private void HandleNewLife() {
+            UnPauseAudio();
         }
 
         #endregion
