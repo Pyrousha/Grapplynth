@@ -89,6 +89,10 @@ namespace Grapplynth {
                 m_wasHighScore = true;
             }
         }
+
+        public void LoadHighScore(int score) {
+            m_highScore = score;
+        }
     }
 
 }

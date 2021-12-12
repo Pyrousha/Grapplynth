@@ -25,7 +25,7 @@ namespace Grapplynth {
 
         public static GameDB instance;
 
-        private void Awake() {
+        private void OnEnable() {
             gameSeed = textSeed;
             if (instance == null) {
                 instance = this;
@@ -34,15 +34,7 @@ namespace Grapplynth {
                 Destroy(this.gameObject);
             }
 
-            instance.m_skinsUnlocked = new Dictionary<string, bool>();
-            instance.m_skinsToUnlock = new List<string>();
-            foreach (SkinData sd in m_skinData) {
-                instance.m_skinsUnlocked.Add(sd.ID, sd.StartUnlocked);
-
-                if (!sd.StartUnlocked) {
-                    instance.m_skinsToUnlock.Add(sd.ID);
-                }
-            }
+            InitSkinData();
         }
 
         public static AudioData GetAudioData(string id) {
@@ -63,6 +55,18 @@ namespace Grapplynth {
             }
         }
 
+        public void InitSkinData() {
+            instance.m_skinsUnlocked = new Dictionary<string, bool>();
+            instance.m_skinsToUnlock = new List<string>();
+            foreach (SkinData sd in m_skinData) {
+                instance.m_skinsUnlocked.Add(sd.ID, sd.StartUnlocked);
+
+                if (!sd.StartUnlocked) {
+                    instance.m_skinsToUnlock.Add(sd.ID);
+                }
+            }
+        }
+
         public static SkinData GetSkinData(string id) {
             // initialize the map if it does not exist
             if (instance.m_skinMap == null) {
@@ -76,7 +80,7 @@ namespace Grapplynth {
             }
             else {
                 throw new KeyNotFoundException(string.Format("No Skin " +
-                    "with id `{0}' is in the database", id
+                    "with id " + id + " is in the database"
                 ));
             }
         }

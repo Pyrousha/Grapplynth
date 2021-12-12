@@ -16,6 +16,8 @@ namespace Grapplynth {
         [SerializeField]
         private Button m_quitButton;
         [SerializeField]
+        private Button m_resetButton;
+        [SerializeField]
         private Button m_adButton;
         [SerializeField]
         private Button m_selectSkinButton;
@@ -37,6 +39,7 @@ namespace Grapplynth {
             m_playGameButton.onClick.AddListener(HandlePlayGame);
             m_settingsButton.onClick.AddListener(HandleSettings);
             m_quitButton.onClick.AddListener(HandleQuit);
+            m_resetButton.onClick.AddListener(HandleResetProgress);
             m_selectSkinButton.onClick.AddListener(HandleSelectSkin);
 
             EventManager.OnNoAds.AddListener(HandleOnNoAds);
@@ -47,6 +50,7 @@ namespace Grapplynth {
             m_playGameButton.onClick.RemoveAllListeners();
             m_settingsButton.onClick.RemoveAllListeners();
             m_quitButton.onClick.RemoveAllListeners();
+            m_resetButton.onClick.RemoveListener(HandleResetProgress);
             m_selectSkinButton.onClick.RemoveListener(HandleSelectSkin);
 
             EventManager.OnNoAds.RemoveListener(HandleOnNoAds);
@@ -76,6 +80,15 @@ namespace Grapplynth {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
+        }
+
+        private void HandleResetProgress() {
+            ScoreManager.instance.LoadHighScore(-1);
+            GameDB.instance.InitSkinData();
+            GameManager.instance.SetCurrSkin("skin-default");
+            PlayerPrefsManager.instance.ResetPrefs();
+
+            AudioManager.instance.PlayOneShot("click_default");
         }
 
         private void HandleSelectSkin() {
