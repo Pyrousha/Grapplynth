@@ -84,7 +84,7 @@ namespace Grapplynth {
                 return;
             }
             //Rotate player to nearest 90 degrees
-            Debug.Log("currRotation: " + (startingRotation + dAngle) + ", roundedRotation: "+ Mathf.Round((startingRotation + dAngle) / 90f) * 90);
+            //Debug.Log("currRotation: " + (startingRotation + dAngle) + ", roundedRotation: "+ Mathf.Round((startingRotation + dAngle) / 90f) * 90);
 
             float offset = Mathf.Abs((dAngle - startingRotation) % 360f); //between 0 and 90
             if (offset < 45)
