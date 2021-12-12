@@ -354,7 +354,7 @@ GameObject:
   - component: {fileID: 5034553177084619184}
   - component: {fileID: 5393451973119767553}
   m_Layer: 2
-  m_Name: CornerPivotFwd
+  m_Name: CornerPivot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -372,7 +372,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7967736004412053194}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5034553177084619184
 BoxCollider:
@@ -401,6 +401,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generator: 0
   cornerType: 4
+--- !u!1 &2045890469373159959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6322226314680853675}
+  - component: {fileID: 1387697484551135087}
+  - component: {fileID: 4118532296392066174}
+  m_Layer: 2
+  m_Name: CornerPivotRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6322226314680853675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045890469373159959}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 20, y: 0, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7967736004412053194}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1387697484551135087
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045890469373159959}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 150, z: 10}
+  m_Center: {x: -10, y: 15, z: 5}
+--- !u!114 &4118532296392066174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045890469373159959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68862745bc61854791c65292490af50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator: -1
+  cornerType: 1
 --- !u!1 &2074436966205278968
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,7 +815,7 @@ GameObject:
   - component: {fileID: 5410054833252705505}
   - component: {fileID: 4176116065425492022}
   m_Layer: 2
-  m_Name: CornerPivot
+  m_Name: CornerPivot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1030,6 +1089,7 @@ Transform:
   - {fileID: 321073039291385763}
   - {fileID: 8906306810707182057}
   - {fileID: 1802835058932658223}
+  - {fileID: 6322226314680853675}
   - {fileID: 4879208011507097901}
   m_Father: {fileID: 0}
   m_RootOrder: 0

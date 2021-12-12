@@ -163,6 +163,10 @@ namespace Grapplynth {
         private void GenerateNextHallway() {
             Debug.Log("Generator " + genID + " trying to generate a hallway. Has " + hallwayList.Count + " hallways.");
             GameDB gameDB = GameDB.instance;
+            // for turns that don't trigger spawn segments
+            if (gameDB.currentGenID == -1) {
+                return;
+            }
             // don't generate a segment if this isn't the current generator or a future hallway
             if (killed == true || (genID != gameDB.currentGenID && hallwayList.Count > 1)) {
                 //Debug.Log("Generator " + genID + " failed to generate a hallway. Has " + hallwayList.Count + " hallways.");
@@ -279,11 +283,11 @@ namespace Grapplynth {
                     // add fork to multiple hallways to prevent immediate deletion
                     segvals.numHallways = 2;
 
-                    Transform turn = segvals.segment.transform.Find("CornerPivot");
+                    Transform turn = segvals.segment.transform.Find("CornerPivot1");
                     CornerTurnPlayer turnCTP = turn.GetComponent<CornerTurnPlayer>();
                     turnCTP.generator = genID;
 
-                    Transform fwd = segvals.segment.transform.Find("CornerPivotFwd");
+                    Transform fwd = segvals.segment.transform.Find("CornerPivot2");
                     CornerTurnPlayer fwdCTP = fwd.GetComponent<CornerTurnPlayer>();
                     fwdCTP.generator = generateLevelClone.genID;
                 }
