@@ -67,7 +67,6 @@ namespace Grapplynth {
                         }
                     default:
                         return;
-                        break;
                 }
 
                 //Mathf.Clamp(dAngle, startingRotation, startingRotation + 90);
