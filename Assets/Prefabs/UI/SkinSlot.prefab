@@ -138,7 +138,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0e2305b1956a71a4989b9c110fb7eb87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc28c544402f1b746ba4ef94f75e5bef, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 4644341256959138947}
   - component: {fileID: 2126863454221383314}
   - component: {fileID: 7109634744591822451}
-  - component: {fileID: 4114233896314972592}
+  - component: {fileID: 1164543121429620974}
   m_Layer: 0
   m_Name: SkinSlot
   m_TagString: Untagged
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4114233896314972592
+--- !u!114 &1164543121429620974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,7 +278,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5878004918801539827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1faed9ad3bc3ab045a44f2f36a701778, type: 3}
+  m_Script: {fileID: 11500000, guid: 452a3d95a79a6284b9e01c0e2805947d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_skinID: skin-default
