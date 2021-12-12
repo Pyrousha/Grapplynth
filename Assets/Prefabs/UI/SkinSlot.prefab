@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 4644341256959138947}
   - component: {fileID: 2126863454221383314}
   - component: {fileID: 7109634744591822451}
-  - component: {fileID: 1164543121429620974}
+  - component: {fileID: 4456359810302594099}
   m_Layer: 0
   m_Name: SkinSlot
   m_TagString: Untagged
@@ -269,7 +269,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1164543121429620974
+--- !u!114 &4456359810302594099
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

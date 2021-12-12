@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Title
   m_EditorClassIdentifier: 
   m_id: title
-  m_clip: {fileID: 8300000, guid: 72448c9c9476e604394b5e00f8a4b03c, type: 3}
+  m_clip: {fileID: 8300000, guid: 9b6616d333f9cf44aaca1ff9ef72c721, type: 3}
   m_volume: 1
   m_pan: 0.5

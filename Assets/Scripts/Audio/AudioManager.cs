@@ -192,29 +192,5 @@ namespace Grapplynth {
         }
 
         #endregion
-
-        #region EventHandlers
-
-        private void HandleOnStart() {
-            PlayAudio("labyrinth", true);
-        }
-
-        private void HandleOnPause () {
-            PauseAudio();
-        }
-        private void HandleOnResume() {
-            UnPauseAudio();
-        }
-        private void HandleOnRestart() {
-            PlayAudio("labyrinth", true);
-        }
-        private void HandleOnGameOver() {
-            PauseAudio();
-        }
-        private void HandleNewLife() {
-            UnPauseAudio();
-        }
-
-        #endregion
     }
 }
