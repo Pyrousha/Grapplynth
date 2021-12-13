@@ -11,6 +11,8 @@ namespace Grapplynth {
         // the generator that this turn belongs to
         public int generator;
 
+        public GameObject chaser;
+
         float dAngle;
 
         private bool visited = false;
@@ -36,7 +38,7 @@ namespace Grapplynth {
             gameDB.currentGenID = generator;
             rotatePlayer = true;
             startingRotation = transform.parent.eulerAngles.y;
-            Debug.Log("Start rotation: " + startingRotation);
+            //Debug.Log("Start rotation: " + startingRotation);
             playerTransform = other.transform;
 
             GameManager.instance.SetMostRecentCorner(other.transform.position);
@@ -44,6 +46,28 @@ namespace Grapplynth {
             if (visited == false) {
                 EventManager.OnTurnCorner.Invoke();
                 visited = true;
+                // chaser code (we only want this to spawn one chaser)
+                if (generator != -1) {
+
+                    // delete old chaser
+                    GameObject[] chaserOld = GameObject.FindGameObjectsWithTag("Chaser");
+                    foreach (GameObject chaser in chaserOld) {
+                        Chaser chaserOldScript = chaser.GetComponent<Chaser>();
+                        chaserOldScript.killed = true;
+                        Destroy(chaser);
+                    }
+                    // spawn new chaser
+                    int chaserRotation = (cornerType == CornerTypeEnum.fwd ? (int)Mathf.Round(startingRotation) : (cornerType == CornerTypeEnum.left ? (int)Mathf.Round(startingRotation) + 270 : (int)Mathf.Round(startingRotation) + 90));
+                    chaserRotation = ((chaserRotation % 360) + 360) % 360;
+                    Debug.Log("startingRotation is: " + startingRotation + ", Chaser angle is: " + chaserRotation);
+                    float chaserx = transform.parent.position.x + (chaserRotation >= 180 ? 1.0f : -1.0f) * (chaserRotation % 180 == 0 ? 0.0f : 1.0f) * 40.0f;
+                    float chasery = transform.parent.position.y;
+                    float chaserz = transform.parent.position.z + (chaserRotation >= 180 ? 1.0f : -1.0f) * (chaserRotation % 180 == 90 ? 0.0f : 1.0f) * 40.0f;
+                    chaser = Instantiate((GameObject)chaser, new Vector3(chaserx, chasery, chaserz), Quaternion.Euler(new Vector3(0, 0, 0)));
+                    Chaser chaserScript = chaser.GetComponent<Chaser>();
+                    chaserScript.rotation = chaserRotation;
+                    chaserScript.speed = (0.046875f + (chaserScript.chaserID * 0.0009765625f)) * (chaserRotation >= 180 ? -1.0f : 1.0f);
+                }
             }
         }
 
@@ -70,9 +94,9 @@ namespace Grapplynth {
                 }
 
                 //Mathf.Clamp(dAngle, startingRotation, startingRotation + 90);
-                Debug.Log("DAngle: "+dAngle);
-                Debug.Log("DAngle - Starting: " + (dAngle - startingRotation)%360f);
-                Debug.Log(Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)));
+                //Debug.Log("DAngle: "+dAngle);
+                //Debug.Log("DAngle - Starting: " + (dAngle - startingRotation)%360f);
+                //Debug.Log(Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)));
                 //if (Mathf.Abs(Mathf.DeltaAngle(dAngle, cornerType == CornerTypeEnum.left ? startingRotation - 45 : startingRotation + 45)) <= 45)
                 playerTransform.rotation = Quaternion.Euler(new Vector3(0, dAngle, 0));
             }

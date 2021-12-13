@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Labyrinth
   m_EditorClassIdentifier: 
   m_id: labyrinth
-  m_clip: {fileID: 8300000, guid: d518cac7b52cbff47bbcd15a7c6dd36b, type: 3}
+  m_clip: {fileID: 8300000, guid: 4a78de30a8b5d1443b0deca80f8727a0, type: 3}
   m_volume: 1
-  m_pan: 0.5
+  m_pan: 0

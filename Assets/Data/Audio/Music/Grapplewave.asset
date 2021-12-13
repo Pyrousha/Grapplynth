@@ -15,4 +15,4 @@ MonoBehaviour:
   m_id: title
   m_clip: {fileID: 8300000, guid: 9b6616d333f9cf44aaca1ff9ef72c721, type: 3}
   m_volume: 1
-  m_pan: 0.5
+  m_pan: 0

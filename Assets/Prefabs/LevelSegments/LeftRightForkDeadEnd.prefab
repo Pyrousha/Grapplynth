@@ -2240,6 +2240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: 0
+  chaser: {fileID: 8589194740128495023, guid: a8a120411f0b65f4499d933e0da246e5, type: 3}
   cornerType: 0
 --- !u!1 &1570002125553469441
 GameObject:
@@ -5414,6 +5415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: 0
+  chaser: {fileID: 8589194740128495023, guid: a8a120411f0b65f4499d933e0da246e5, type: 3}
   cornerType: 1
 --- !u!1 &4189327478828729378
 GameObject:
@@ -7394,6 +7396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: -1
+  chaser: {fileID: 8589194740128495023, guid: a8a120411f0b65f4499d933e0da246e5, type: 3}
   cornerType: 1
 --- !u!1 &6614882038556536079
 GameObject:
@@ -7764,6 +7767,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: -1
+  chaser: {fileID: 8589194740128495023, guid: a8a120411f0b65f4499d933e0da246e5, type: 3}
   cornerType: 0
 --- !u!1 &7183826636697612821
 GameObject:

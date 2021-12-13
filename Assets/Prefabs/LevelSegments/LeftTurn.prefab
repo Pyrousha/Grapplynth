@@ -707,6 +707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generator: 0
+  chaser: {fileID: 8589194740128495023, guid: a8a120411f0b65f4499d933e0da246e5, type: 3}
   cornerType: 0
 --- !u!1 &7572073008765545113
 GameObject:
