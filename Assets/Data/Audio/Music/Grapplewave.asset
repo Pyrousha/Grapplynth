@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3da541904fa362740801f6fa41b4a3ae, type: 3}
-  m_Name: Title
+  m_Name: Grapplewave
   m_EditorClassIdentifier: 
   m_id: title
   m_clip: {fileID: 8300000, guid: 9b6616d333f9cf44aaca1ff9ef72c721, type: 3}
