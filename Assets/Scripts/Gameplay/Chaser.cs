@@ -11,12 +11,29 @@ namespace Grapplynth {
         private static int numChasers;
         public bool killed;
 
+        private Vector3 startPosition; //used for resetting to beginning of corner
+
         private void OnEnable() {
             EventManager.OnRestart.AddListener(ResetNumChasers);
+            EventManager.OnGameOver.AddListener(HandleOnGameOver);
         }
 
         private void OnDisable() {
             EventManager.OnRestart.RemoveListener(ResetNumChasers);
+            EventManager.OnGameOver.RemoveListener(HandleOnGameOver);
+        }
+
+        private void HandleOnGameOver() {
+            this.transform.position = startPosition;
+            x = startPosition.x;
+            y = startPosition.y;
+            z = startPosition.z;
+            Debug.Log("game Over finished calling");
+        }
+
+        public void SetStartPosition(Vector3 start) {
+            startPosition = start;
+            Debug.Log("start pos: " + start);
         }
 
         private void OnDestroy() {
@@ -34,10 +51,12 @@ namespace Grapplynth {
             x = transform.position.x;
             y = transform.position.y;
             z = transform.position.z;
+            
             gameObject.transform.eulerAngles = new Vector3(0, rotation, 0);
             chaserID = numChasers;
             if (chaserID == 0) {
                 numChasers = 0;
+                startPosition = new Vector3(x, y, z);
             }
             numChasers++;
         }

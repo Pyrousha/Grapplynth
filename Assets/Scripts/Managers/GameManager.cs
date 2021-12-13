@@ -38,6 +38,7 @@ namespace Grapplynth {
             EventManager.OnPause.AddListener(HandleOnPause);
             EventManager.OnResume.AddListener(HandleOnResume);
             EventManager.OnRestart.AddListener(HandleOnRestart);
+            EventManager.OnGameOver.AddListener(HandleOnGameOver);
             EventManager.OnNewLife.AddListener(HandleOnNewLife);
             EventManager.OnReturnMain.AddListener(HandleOnReturnMain);
         }
@@ -83,6 +84,11 @@ namespace Grapplynth {
         private void HandleOnRestart() {
             m_gameIsPaused = false;
             Time.timeScale = 1;
+        }
+
+        private void HandleOnGameOver() {
+            m_gameIsPaused = true;
+            Time.timeScale = 0;
         }
 
 

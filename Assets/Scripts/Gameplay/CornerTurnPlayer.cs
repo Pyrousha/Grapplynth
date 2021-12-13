@@ -65,6 +65,8 @@ namespace Grapplynth {
                     float chaserz = transform.parent.position.z + (chaserRotation >= 180 ? 1.0f : -1.0f) * (chaserRotation % 180 == 90 ? 0.0f : 1.0f) * 40.0f;
                     chaser = Instantiate((GameObject)chaser, new Vector3(chaserx, chasery, chaserz), Quaternion.Euler(new Vector3(0, 0, 0)));
                     Chaser chaserScript = chaser.GetComponent<Chaser>();
+                    chaserScript.SetStartPosition(new Vector3(chaserx, chasery, chaserz));
+                    Debug.Log("start pos: " + new Vector3(chaserx, chasery, chaserz));
                     chaserScript.rotation = chaserRotation;
                     chaserScript.speed = (0.046875f + (chaserScript.chaserID * 0.0009765625f)) * (chaserRotation >= 180 ? -1.0f : 1.0f);
                 }
